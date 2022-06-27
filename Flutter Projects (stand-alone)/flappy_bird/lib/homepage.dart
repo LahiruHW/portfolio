@@ -60,34 +60,110 @@ class _HomePageState extends State<HomePage> {
 
                     Expanded(
                         flex: 3,
-                        child: GestureDetector(
-                            child: AnimatedContainer(
-                                alignment: Alignment(0 , bird_y_axis),
-                                color: Colors.blue,
-                                duration: Duration(
-                                    milliseconds: 0
+                        child: Stack(
+
+
+                            children: [
+
+                                GestureDetector(
+                                    child: AnimatedContainer(
+                                        alignment: Alignment(0 , bird_y_axis),
+                                        color: Colors.blue,
+                                        duration: Duration(
+                                            milliseconds: 0
+                                        ),
+                                        child: Bird()
+                                    ),
+                                    onTap: () {
+                                        if (has_game_started){ jump(); }
+                                        else { startGame(); }
+                                    },
                                 ),
-                                child: Bird()
-                            ),
 
-                            onTap: () {
 
-                                if (has_game_started){
-                                    jump(); 
-                                }
-                                else {
-                                    startGame();
-                                }
+                                Container(
+                                    alignment: Alignment(0, -0.25),
+                                    child: has_game_started ? Text("") : Text("T A P   T O   P L A Y")
+                                ),
 
-                            },
+                            ],
+
 
                         ),
+                        
+
+                        
+
+
+
+
                     ),
 
+                    Container(
+                        height: 15,
+                        color: Colors.green
+                    ),
 
                     Expanded(
                         child: Container(
-                            color: Colors.green,
+                            color: Colors.brown,
+
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+
+                                      Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                              Text(
+                                                  "SCORE",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20
+                                                  ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text(
+                                                  "0",
+
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 35
+                                                  ),
+
+                                              )
+                                          ],
+                                      ),
+
+                                      
+
+                                      Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                              Text(
+                                                  "BEST",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20
+                                                  ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text(
+                                                  "10",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 35
+                                                  ),
+                                              )
+                                          ],
+                                      )
+
+
+
+                                ],
+
+                            ),
+
                         ),
                     ),
 
