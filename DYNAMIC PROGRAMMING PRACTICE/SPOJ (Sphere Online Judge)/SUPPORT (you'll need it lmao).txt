@@ -1,8 +1,0 @@
-Username: lahiru
-password: SpideyGrande123
-
-
-
-Read this tutorial page for any debug errors:
-
-https://www.spoj.com/tutorials/USERS/
