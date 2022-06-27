@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flappy_bird/barriers.dart';
 import 'package:flappy_bird/bird.dart';
 import 'package:flutter/material.dart';
 
@@ -85,6 +86,16 @@ class _HomePageState extends State<HomePage> {
                                     alignment: Alignment(0, -0.25),
                                     child: has_game_started ? Text("") : Text("T A P   T O   P L A Y")
                                 ),
+
+
+                                AnimatedContainer(
+                                    duration: Duration(),
+                                    alignment: Alignment(0,1),
+                                    child: MyBarrier(size: 200.0,),
+
+                                )
+                                
+
 
                             ],
 
