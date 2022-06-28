@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'homepage.dart';
 
-void main() {
-  runApp( 
-      MyApp() 
-  );
-}
+//TODO: Add a new Menu page with buttons to: 
+//    1. Play (i.e. start) the game
+//    2. Show credits 
+//        (based on the original game created by Dong Nguyen) 
+//    3. Visit my github page
+//    3. Play
 
+void main() => runApp(  MyApp() );
 
 
 class MyApp extends StatelessWidget {

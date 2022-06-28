@@ -13,11 +13,6 @@ class MyBarrier extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
                 color: Colors.green,
-                // border: Border(
-                //     top: BorderSide(width: 2),
-                //     left: BorderSide(width: 2),
-                //     right: BorderSide(width: 2),
-                // )
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                     width: 10,
@@ -26,6 +21,29 @@ class MyBarrier extends StatelessWidget {
             )
         );
     }
+
+
+    // @override
+    // Widget build(BuildContext context) {
+    //     return Container(
+    //         width: 100,
+    //         height: size,
+    //         child: Image.asset(//ADD pipe-gree.png here! )       
+    //         decoration: BoxDecoration(
+    //             color: Colors.green,
+    //             borderRadius: BorderRadius.circular(10),
+    //             border: Border.all(
+    //                 width: 10,
+    //                 color: Colors.green.shade800
+    //             ),
+    //         )
+    //     );
+    // }
+
+
+
+
+
 }
 
 

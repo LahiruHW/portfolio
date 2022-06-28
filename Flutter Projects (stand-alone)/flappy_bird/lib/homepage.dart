@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flappy_bird/barriers.dart';
 import 'package:flappy_bird/bird.dart';
+import 'package:flappy_bird/strokeText.dart';
 import 'package:flutter/material.dart';
 
 
@@ -27,7 +28,8 @@ class _HomePageState extends State<HomePage> {
 
     static double barrier_one_X = 1;
 
-    double barrier_two_X = barrier_one_X + 1.5;
+    double barrier_two_X = barrier_one_X + 0.75;   /////////////////////////////////////////////// distance between barriers
+
 
     void jump(){
         setState(() {
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
             Duration(milliseconds: 60), 
             (timer) {
                 time += 0.05;
-                height = (-4.9*time*time) + (2.8*time);
+                height = (-4.9*time*time) + (2.4*time);
                 setState(() {
                     bird_y_axis = initialHeight - height;
                     // barrier_one_X -= 0.05;
@@ -67,6 +69,12 @@ class _HomePageState extends State<HomePage> {
                 if (bird_y_axis > 1){
                     timer.cancel();
                     has_game_started = false;
+                    
+                    // if (Platform.isAndroid) {          // move this to the exit method!
+                    //     SystemNavigator.pop();
+                    // } else if (Platform.isIOS) {
+                    //     exit(0);
+                    // }
                 }
             }
         );
@@ -81,145 +89,162 @@ class _HomePageState extends State<HomePage> {
                 else { startGame(); }
             },
             child: Scaffold(
-                body: Column(      
-                    children: [
+                
+                body: 
+                
+                
+                Container( 
+                    
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("lib/assets/images/background-day.png"),
+                            fit: BoxFit.cover
+                        )
+                    ),
 
-                        Expanded(
-                            flex: 3,
-                            child: Stack(
+                    child: Column(      
+                        children: [
 
-
-                                children: [
-
-                                    AnimatedContainer(
-                                        alignment: Alignment(0 , bird_y_axis),
-                                        color: Colors.blue,
-                                        duration: Duration(
-                                            milliseconds: 0
-                                        ),
-                                        child: Bird()
-                                    ),
-
-                                    Container(
-                                        alignment: Alignment(0, -0.25),
-                                        child: has_game_started ? Text("") : Text("T A P   T O   P L A Y")
-                                    ),
+                            Expanded(
+                                flex: 3,
+                                child: Stack(
 
 
-                                    AnimatedContainer(
-                                        duration: Duration(),
-                                        alignment: Alignment(barrier_one_X , 1.1),
-                                        child: MyBarrier(size: 200.0,),
-                                    ),
-                                    
-                                    AnimatedContainer(
-                                        duration: Duration(),
-                                        alignment: Alignment(barrier_one_X , -1.1),
-                                        child: MyBarrier(size: 200.0,),
-                                    ),
-
-
-
-
-
-                                    AnimatedContainer(
-                                        duration: Duration(),
-                                        alignment: Alignment(barrier_two_X , 1.1),
-                                        child: MyBarrier(size: 150.0,),
-                                    ),
-
-                                    AnimatedContainer(
-                                        duration: Duration(),
-                                        alignment: Alignment(barrier_two_X , -1.1),
-                                        child: MyBarrier(size: 250.0,),
-                                    )
-
-
-
-                                ],
-
-
-                            ),
-                            
-
-                            
-
-
-
-
-                        ),
-
-                        Container(
-                            height: 15,
-                            color: Colors.green
-                        ),
-
-                        Expanded(
-                            child: Container(
-                                color: Colors.brown,
-
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
 
-                                          Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                  Text(
-                                                      "SCORE",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 20
-                                                      ),
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                  Text(
-                                                      "0",
 
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 35
-                                                      ),
+                                        AnimatedContainer(
+                                            alignment: Alignment(0 , bird_y_axis),
+                                            color: Colors.blue,
+                                            duration: Duration(
+                                                milliseconds: 0
+                                            ),
+                                            child: Bird()
+                                        ),
 
-                                                  )
-                                              ],
-                                          ),
+                                        Container(
+                                            alignment: Alignment(0, -0.25),
+                                            child: has_game_started ? Text("") : 
 
-                                          
-
-                                          Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                  Text(
-                                                      "BEST",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 20
-                                                      ),
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                  Text(
-                                                      "10",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 35
-                                                      ),
-                                                  )
-                                              ],
-                                          )
+                                            OutlinedText(
+                                                "Get Ready!", 
+                                                font: 'Flappy-Bird', 
+                                                fontSize: 90,
+                                                textColor: Colors.greenAccent.shade700, 
+                                                strokeColor: Colors.white, 
+                                                strokeWidth: 6
+                                            )
 
 
+                                        ),
+
+
+                                        AnimatedContainer(
+                                            duration: Duration(),
+                                            alignment: Alignment(barrier_one_X , 1.1),
+                                            child: MyBarrier(size: 300.0,),
+                                        ),
+                                        
+                                        AnimatedContainer(
+                                            duration: Duration(),
+                                            alignment: Alignment(barrier_one_X , -1.1),
+                                            child: MyBarrier(size: 300.0,),
+                                        ),
+
+
+                                        AnimatedContainer(
+                                            duration: Duration(),
+                                            alignment: Alignment(barrier_two_X , 1.1),
+                                            child: MyBarrier(size: 150.0,),
+                                        ),
+
+                                        AnimatedContainer(
+                                            duration: Duration(),
+                                            alignment: Alignment(barrier_two_X , -1.1),
+                                            child: MyBarrier(size: 250.0,),
+                                        )
 
                                     ],
 
                                 ),
+                                
 
                             ),
-                        ),
 
-                    ],
+                            Container(
+                                height: 15,
+                                color: Colors.green
+                            ),
+
+                            Expanded(
+                                child: Container(
+                                    color: Colors.brown,
+
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+
+                                              Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                      Text(
+                                                          "SCORE",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 20
+                                                          ),
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                      Text(
+                                                          "0",
+                                                          style: TextStyle(
+                                                              fontFamily: 'Flappy-Bird',
+                                                              color: Colors.white,
+                                                              fontSize: 80
+                                                          ),
+
+                                                      )
+                                                  ],
+                                              ),
+
+                                              
+
+                                              Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                      Text(
+                                                          "BEST",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 20
+                                                          ),
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                      Text(
+                                                          "10",
+                                                          style: TextStyle(
+                                                              fontFamily: 'Flappy-Bird',
+                                                              color: Colors.white,
+                                                              fontSize: 80
+                                                          ),
+                                                      )
+                                                  ],
+                                              )
 
 
+
+                                        ],
+
+                                    ),
+
+                                ),
+                            ),
+
+                        ],
+
+
+
+                    ),
 
                 ),
 
@@ -228,5 +253,19 @@ class _HomePageState extends State<HomePage> {
     }
 }
 
+
+
+
+
+// collision detection:
+
+/*
+
+
+  Check if top/bottom borders of BIRD is colliding with bottom/top sides of barriers
+
+  Check if 
+
+*/
 
 
