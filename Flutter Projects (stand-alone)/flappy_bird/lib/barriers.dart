@@ -12,15 +12,21 @@ class MyBarrier extends StatelessWidget {
             width: 100,
             height: size,
             decoration: BoxDecoration(
-                color: Colors.green.shade700,
+                color: Colors.green,
+                // border: Border(
+                //     top: BorderSide(width: 2),
+                //     left: BorderSide(width: 2),
+                //     right: BorderSide(width: 2),
+                // )
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-
-                    width: 4,
-                    color: Colors.black
-
-                )
-            ),
+                    width: 10,
+                    color: Colors.green.shade800
+                ),
+            )
         );
     }
 }
+
+
 
