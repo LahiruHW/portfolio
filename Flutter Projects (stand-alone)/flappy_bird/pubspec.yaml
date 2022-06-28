@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   restart_app: ^1.1.0
+  audioplayers: any
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -47,7 +48,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/assets/
+    - assets/fonts/
+    - assets/images/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -64,7 +67,7 @@ flutter:
   fonts:
     - family: Flappy-Bird
       fonts:
-        - asset: lib/assets/fonts/Flappy-Bird.ttf
+        - asset: assets/fonts/Flappy-Bird.ttf
 
   #   - family: Trajan Pro
   #     fonts:

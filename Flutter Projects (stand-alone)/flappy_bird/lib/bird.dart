@@ -7,9 +7,14 @@ class Bird extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return Container(
-            child: Image.asset('lib/assets/flappybird.png'),
+            child: Image.asset('assets/images/flappybird.png'),
             height: 60,
-            width: 60
+            width: 60,
+            // color: Colors.amber,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.amber
+            ),
         );    
     }
 }

@@ -7,7 +7,6 @@ import 'homepage.dart';
 //    2. Show credits 
 //        (based on the original game created by Dong Nguyen) 
 //    3. Visit my github page
-//    3. Play
 
 void main() => runApp(  MyApp() );
 

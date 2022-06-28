@@ -18,18 +18,21 @@ class _HomePageState extends State<HomePage> {
   
     static double bird_y_axis = 0;
 
+    double g_force = 2.5; //4.9;
+
     double time = 0;
 
     double height = 0;
+
+    double velocity = 1.5;
 
     double initialHeight = bird_y_axis;
 
     bool has_game_started = false;    
 
-    static double barrier_one_X = 1;
+    static double barrier_one_X = 3;
 
     double barrier_two_X = barrier_one_X + 0.75;   /////////////////////////////////////////////// distance between barriers
-
 
     void jump(){
         setState(() {
@@ -38,35 +41,35 @@ class _HomePageState extends State<HomePage> {
         });
     }
 
+    bool isBirdDead(){
+      bool answer = false;
+      //if (bird_y_axis > 1 || bird_y_axis < -1){
+      if (bird_y_axis > 1.5){
+          answer = true;
+      } 
+      return answer;
+    }
+
     void startGame(){
         has_game_started = true;
         Timer.periodic(
             Duration(milliseconds: 60), 
             (timer) {
                 time += 0.05;
-                height = (-4.9*time*time) + (2.4*time);
+                height = (-g_force*time*time) + (velocity*time);
                 setState(() {
                     bird_y_axis = initialHeight - height;
-                    // barrier_one_X -= 0.05;
-                    // barrier_two_X -= 0.05;
 
-                if (barrier_one_X < -2) {
-                    barrier_one_X = 2.2;
-                }
-                else{
-                  barrier_one_X -= 0.05;
-                }
 
-                if (barrier_two_X < -2) {
-                    barrier_two_X = 2.2;
-                }
-                else{
-                  barrier_two_X -= 0.05;
-                }
+                if (barrier_one_X < -3) { barrier_one_X = 3; }
+                else{ barrier_one_X -= 0.05; }
+
+                if (barrier_two_X < -3) { barrier_two_X = 3; }
+                else{ barrier_two_X -= 0.05; }
 
                 });
 
-                if (bird_y_axis > 1){
+                if ( isBirdDead() ){
                     timer.cancel();
                     has_game_started = false;
                     
@@ -93,12 +96,12 @@ class _HomePageState extends State<HomePage> {
                 body: 
                 
                 
-                Container( 
+                Container(
                     
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("lib/assets/images/background-day.png"),
-                            fit: BoxFit.cover
+                            image: AssetImage('assets/images/background-day.png'),
+                            fit: BoxFit.fill
                         )
                     ),
 
@@ -115,7 +118,7 @@ class _HomePageState extends State<HomePage> {
 
                                         AnimatedContainer(
                                             alignment: Alignment(0 , bird_y_axis),
-                                            color: Colors.blue,
+                                            // color: Colors.blue,
                                             duration: Duration(
                                                 milliseconds: 0
                                             ),
@@ -139,30 +142,41 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
 
+
+
+
+
+
+
+
+
+
+
+
                                         AnimatedContainer(
-                                            duration: Duration(),
+                                            duration: Duration(milliseconds: 0),
                                             alignment: Alignment(barrier_one_X , 1.1),
                                             child: MyBarrier(size: 300.0,),
                                         ),
                                         
                                         AnimatedContainer(
-                                            duration: Duration(),
+                                            duration: Duration(milliseconds: 0),
                                             alignment: Alignment(barrier_one_X , -1.1),
                                             child: MyBarrier(size: 300.0,),
                                         ),
 
 
-                                        AnimatedContainer(
-                                            duration: Duration(),
-                                            alignment: Alignment(barrier_two_X , 1.1),
-                                            child: MyBarrier(size: 150.0,),
-                                        ),
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_two_X , 1.1),
+                                        //     child: MyBarrier(size: 150.0,),
+                                        // ),
 
-                                        AnimatedContainer(
-                                            duration: Duration(),
-                                            alignment: Alignment(barrier_two_X , -1.1),
-                                            child: MyBarrier(size: 250.0,),
-                                        )
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_two_X , -1.1),
+                                        //     child: MyBarrier(size: 250.0,),
+                                        // )
 
                                     ],
 
