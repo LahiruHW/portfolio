@@ -19,6 +19,10 @@ class _HomePageState extends State<HomePage> {
 
     static double bird_y_axis = 0;
 
+    late final AudioCache cache;
+    late final AudioPlayer player;
+
+
     double g_force = 2.5; //4.9;
 
     double time = 0;
@@ -35,18 +39,22 @@ class _HomePageState extends State<HomePage> {
 
     double barrier_two_X = barrier_one_X + 0.75;   /////////////////////////////////////////////// distance between barriers
 
+
     @override
-    void initState() {
+    void initState(){
         super.initState(); 
+        player = AudioPlayer(
+                mode: PlayerMode.LOW_LATENCY
+        );
+        cache = AudioCache( 
+            prefix: 'assets/audio/',
+            fixedPlayer: player
+        );
     }
 
-
-
     void jump(){
-
-        final cache = AudioCache();
-        cache.play('audio/wing.wav');
-
+        // final player = AudioCache(prefix: 'assets/audio/');
+        cache.play('wing.wav');
         setState(() {
             time = 0;
             initialHeight = bird_y_axis;
@@ -56,7 +64,8 @@ class _HomePageState extends State<HomePage> {
     bool isBirdDead(){
       bool answer = false;
       //if (bird_y_axis > 1 || bird_y_axis < -1){
-      if (bird_y_axis > 1.5){
+      if (bird_y_axis > 1.15){
+          cache.play('die.wav');
           answer = true;
       } 
       return answer;
@@ -178,17 +187,17 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
 
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_two_X , 1.1),
-                                        //     child: MyBarrier(size: 150.0,),
-                                        // ),
+                                        AnimatedContainer(
+                                            duration: Duration(milliseconds: 0),
+                                            alignment: Alignment(barrier_two_X , 1.1),
+                                            child: MyBarrier(size: 150.0,),
+                                        ),
 
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_two_X , -1.1),
-                                        //     child: MyBarrier(size: 250.0,),
-                                        // )
+                                        AnimatedContainer(
+                                            duration: Duration(milliseconds: 0),
+                                            alignment: Alignment(barrier_two_X , -1.1),
+                                            child: MyBarrier(size: 250.0,),
+                                        )
 
                                     ],
 
