@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flappy_bird/barriers.dart';
 import 'package:flappy_bird/bird.dart';
 import 'package:flappy_bird/strokeText.dart';
@@ -15,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
+
     static double bird_y_axis = 0;
 
     double g_force = 2.5; //4.9;
@@ -34,7 +35,18 @@ class _HomePageState extends State<HomePage> {
 
     double barrier_two_X = barrier_one_X + 0.75;   /////////////////////////////////////////////// distance between barriers
 
+    @override
+    void initState() {
+        super.initState(); 
+    }
+
+
+
     void jump(){
+
+        final cache = AudioCache();
+        cache.play('audio/wing.wav');
+
         setState(() {
             time = 0;
             initialHeight = bird_y_axis;
