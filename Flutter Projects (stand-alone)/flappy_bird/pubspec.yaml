@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   audioplayers: ^0.20.1
   flutter_web_frame: ^0.0.3
+  universal_io: ^2.0.4
   
 
 dev_dependencies:

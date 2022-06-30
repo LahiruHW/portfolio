@@ -23,13 +23,13 @@ class _HomePageState extends State<HomePage> {
     late final AudioPlayer player;
 
 
-    double g_force = 2.5; //4.9;
+    double g_force = 1.5; // 2.5; //4.9;
 
     double time = 0;
 
     double height = 0;
 
-    double velocity = 1.5;
+    double velocity = 1.0;
 
     double initialHeight = bird_y_axis;
 
@@ -76,17 +76,16 @@ class _HomePageState extends State<HomePage> {
         Timer.periodic(
             Duration(milliseconds: 60), 
             (timer) {
-                time += 0.05;
+                time += 0.04;
                 height = (-g_force*time*time) + (velocity*time);
                 setState(() {
                     bird_y_axis = initialHeight - height;
 
+                    if (barrier_one_X < -3) { barrier_one_X = 3; }
+                    else{ barrier_one_X -= 0.05; }
 
-                if (barrier_one_X < -3) { barrier_one_X = 3; }
-                else{ barrier_one_X -= 0.05; }
-
-                if (barrier_two_X < -3) { barrier_two_X = 3; }
-                else{ barrier_two_X -= 0.05; }
+                    if (barrier_two_X < -3) { barrier_two_X = 3; }
+                    else{ barrier_two_X -= 0.05; }
 
                 });
 
@@ -99,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                     // } else if (Platform.isIOS) {
                     //     exit(0);
                     // }
+
                 }
             }
         );
@@ -114,10 +114,7 @@ class _HomePageState extends State<HomePage> {
             },
             child: Scaffold(
                 
-                body: 
-                
-                
-                Container(
+                body: Container(
                     
                     decoration: BoxDecoration(
                         image: DecorationImage(
@@ -136,14 +133,10 @@ class _HomePageState extends State<HomePage> {
 
                                     children: [
 
-
-                                        AnimatedContainer(
-                                            alignment: Alignment(0 , bird_y_axis),
-                                            // color: Colors.blue,
-                                            duration: Duration(
-                                                milliseconds: 0
-                                            ),
-                                            child: Bird()
+                                        Bird2(
+                                            birdHeight: 50,
+                                            birdWidth: 50,
+                                            birdY: bird_y_axis
                                         ),
 
                                         Container(
@@ -163,41 +156,46 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
 
-
-
-
-
-
-
-
-
-
-
-
-                                        AnimatedContainer(
-                                            duration: Duration(milliseconds: 0),
-                                            alignment: Alignment(barrier_one_X , 1.1),
-                                            child: MyBarrier(size: 300.0,),
+                                        Barrier2(
+                                            barrierX: barrier_one_X,
+                                            isDownBarrier: true,
+                                            barrierWidth: 100.0,
+                                            barrierHeight: 300.0,
                                         ),
+
+
+                                        Barrier2(
+                                            barrierX: barrier_one_X,
+                                            isDownBarrier: false,
+                                            barrierWidth: 100.0,
+                                            barrierHeight: 300.0,
+                                        ),
+
+
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_one_X , 1.1),
+                                        //     child: MyBarrier(size: 300.0,),
+                                        // ),
                                         
-                                        AnimatedContainer(
-                                            duration: Duration(milliseconds: 0),
-                                            alignment: Alignment(barrier_one_X , -1.1),
-                                            child: MyBarrier(size: 300.0,),
-                                        ),
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_one_X , -1.1),
+                                        //     child: MyBarrier(size: 300.0,),
+                                        // ),
 
 
-                                        AnimatedContainer(
-                                            duration: Duration(milliseconds: 0),
-                                            alignment: Alignment(barrier_two_X , 1.1),
-                                            child: MyBarrier(size: 150.0,),
-                                        ),
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_two_X , 1.1),
+                                        //     child: MyBarrier(size: 150.0,),
+                                        // ),
 
-                                        AnimatedContainer(
-                                            duration: Duration(milliseconds: 0),
-                                            alignment: Alignment(barrier_two_X , -1.1),
-                                            child: MyBarrier(size: 250.0,),
-                                        )
+                                        // AnimatedContainer(
+                                        //     duration: Duration(milliseconds: 0),
+                                        //     alignment: Alignment(barrier_two_X , -1.1),
+                                        //     child: MyBarrier(size: 250.0,),
+                                        // )
 
                                     ],
 
@@ -304,3 +302,16 @@ class _HomePageState extends State<HomePage> {
 */
 
 
+
+
+
+
+
+
+// AnimatedContainer(
+//     // transform: Matrix4.rotationZ(radians),
+//     alignment: Alignment(0 , bird_y_axis),  /////////////// y-axis position of bird
+//     // color: Colors.blue,
+//     duration: Duration(),
+//     child: Bird() 
+// ),

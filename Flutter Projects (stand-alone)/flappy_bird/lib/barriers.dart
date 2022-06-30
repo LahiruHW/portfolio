@@ -32,47 +32,49 @@ class MyBarrier extends StatelessWidget {
 
 
 
-class Barrier extends StatelessWidget {
+class Barrier2 extends StatelessWidget {
     
     final barrierWidth;
-
     final barrierHeight;
-
     final barrierX;
+    final bool isDownBarrier;
 
-    bool isDownBarrier;
-
-    Barrier({ 
+    Barrier2({ 
         this.barrierX,
         this.barrierWidth,
         this.barrierHeight, 
         required this.isDownBarrier
     });
 
-
     @override
     Widget build(BuildContext context) {
         return Container(
             
-            alignment: Alignment( (2 * barrierX + barrierWidth) / (2 - barrierWidth) , (isDownBarrier ? 1 : -1)  ),
+            alignment: Alignment(barrierX , (isDownBarrier ? 1.1 : -1.1) ),
             
-            transform: Matrix4.rotationZ( (isDownBarrier ? 0 : 1)  *pi),
+            // alignment: Alignment( ((2 * barrierX) + barrierWidth) / (2 - barrierWidth) , (isDownBarrier ? 1 : -1)  ),
             
-            width: MediaQuery.of(context).size.width * barrierWidth / 2,
+            // transform: Matrix4.rotationZ( (isDownBarrier ? 0 : 1)  *pi),
             
-            height: MediaQuery.of(context).size.height * 3 / 4 * barrierHeight / 2,
-            
-            
-            decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                    width: 10,
-                    color: Colors.green.shade800
-                ),
+            child: Container(
+
+                // MediaQuery.of(context).size.width * barrierWidth / 3
+                width: MediaQuery.of(context).size.width / (barrierWidth / 20),  
+                 
+                // MediaQuery.of(context).size.height * 3 / 4 * (barrierHeight / 2),
+                height: (MediaQuery.of(context).size.height / 2) , 
+
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        width: 10,
+                        color: Colors.green.shade800
+                    ),
+                )
+
+
             )
-
-
         );
     }
 
