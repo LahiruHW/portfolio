@@ -339,8 +339,6 @@ class _HomePageState extends State<HomePage> {
 
 
 
-
-
 // AnimatedContainer(
 //     // transform: Matrix4.rotationZ(radians),
 //     alignment: Alignment(0 , bird_y_axis),  /////////////// y-axis position of bird
