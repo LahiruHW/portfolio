@@ -1,7 +1,0 @@
-[user]
-    email = lahiruweliwitiya@hotmail.com
-    name = Lahiru Weliwitiya
-[gpg]
-    program = gpg
-[commit]
-    gpgsign = true
