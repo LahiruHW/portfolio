@@ -33,6 +33,7 @@ dependencies:
   audioplayers: ^0.20.1
   flutter_web_frame: ^0.0.3
   universal_io: ^2.0.4
+  simple_animations: ^4.2.0
   
 
 dev_dependencies:
@@ -72,6 +73,9 @@ flutter:
     - family: Flappy-Bird
       fonts:
         - asset: assets/fonts/Flappy-Bird.ttf
+    - family: Flappy-Bird-Score
+      fonts:
+        - asset: assets/fonts/fp-score.ttf
 
   #   - family: Trajan Pro
   #     fonts:

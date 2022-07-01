@@ -171,31 +171,52 @@ class _HomePageState extends State<HomePage> {
                                             barrierHeight: 300.0,
                                         ),
 
-
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_one_X , 1.1),
-                                        //     child: MyBarrier(size: 300.0,),
-                                        // ),
-                                        
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_one_X , -1.1),
-                                        //     child: MyBarrier(size: 300.0,),
-                                        // ),
+                                        Barrier2(
+                                            barrierX: barrier_two_X,
+                                            isDownBarrier: true,
+                                            barrierWidth: 100.0,
+                                            barrierHeight: 150.0,
+                                        ),
 
 
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_two_X , 1.1),
-                                        //     child: MyBarrier(size: 150.0,),
-                                        // ),
+                                        Barrier2(
+                                            barrierX: barrier_two_X,
+                                            isDownBarrier: false,
+                                            barrierWidth: 100.0,
+                                            barrierHeight: 250.0,
+                                        ),
 
-                                        // AnimatedContainer(
-                                        //     duration: Duration(milliseconds: 0),
-                                        //     alignment: Alignment(barrier_two_X , -1.1),
-                                        //     child: MyBarrier(size: 250.0,),
-                                        // )
+
+                                        Container(
+                                            alignment: Alignment(0, -0.5),
+                                            child: OutlinedScoreText(
+                                              "0", 
+                                              font: 'Flappy-Bird-Score', 
+                                              fontSize: 70, 
+                                              textColor: Colors.white, 
+                                              strokeColor: Colors.black, 
+                                              strokeWidth: 100
+                                            )
+                                        ), 
+
+
+                                        //////////////////////////////////////////////////////////////////////////////////
+                                        //////////////////////////////////////////////////////////////////////////////////
+                                        //////////////////////////////////////////////////////////////////////////////////                                        
+                                        //////////////////////////////////////////////////////////////////////////////////
+                                        //////////////////////////////////////////////////////////////////////////////////
+
+                                        Container(
+                                            alignment: Alignment(0 , 1),
+                                            height: 150, // MediaQuery.of(context).size.height/4,
+                                            foregroundDecoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    // alignment: Alignment(0 , 1),
+                                                    image: AssetImage('assets/images/base.png'),
+                                                    fit: BoxFit.fill
+                                                )
+                                            ),
+                                        ),
 
                                     ],
 
@@ -204,74 +225,63 @@ class _HomePageState extends State<HomePage> {
 
                             ),
 
-                            Container(
-                                height: 15,
-                                color: Colors.green
-                            ),
+                            // Container(
+                            //     height: 15,
+                            //     color: Colors.green
+                            // ),
 
-                            Expanded(
-                                child: Container(
-                                    color: Colors.brown,
-
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-
-                                              Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                      Text(
-                                                          "SCORE",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 20
-                                                          ),
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                      Text(
-                                                          "0",
-                                                          style: TextStyle(
-                                                              fontFamily: 'Flappy-Bird',
-                                                              color: Colors.white,
-                                                              fontSize: 80
-                                                          ),
-
-                                                      )
-                                                  ],
-                                              ),
-
-                                              
-
-                                              Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                      Text(
-                                                          "BEST",
-                                                          style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 20
-                                                          ),
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                      Text(
-                                                          "10",
-                                                          style: TextStyle(
-                                                              fontFamily: 'Flappy-Bird',
-                                                              color: Colors.white,
-                                                              fontSize: 80
-                                                          ),
-                                                      )
-                                                  ],
-                                              )
-
-
-
-                                        ],
-
-                                    ),
-
-                                ),
-                            ),
+                            // Expanded(
+                            //     child: Container(
+                            //         color: Colors.brown,
+                            //         child: Row(
+                            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            //             children: [
+                            //                   Column(
+                            //                       mainAxisAlignment: MainAxisAlignment.center,
+                            //                       children: [
+                            //                           Text(
+                            //                               "SCORE",
+                            //                               style: TextStyle(
+                            //                                   color: Colors.white,
+                            //                                   fontSize: 20
+                            //                               ),
+                            //                           ),
+                            //                           SizedBox(height: 20),
+                            //                           Text(
+                            //                               "0",
+                            //                               style: TextStyle(
+                            //                                   fontFamily: 'Flappy-Bird',
+                            //                                   color: Colors.white,
+                            //                                   fontSize: 80
+                            //                               ),
+                            //                           )
+                            //                       ],
+                            //                   ),
+                            //                   Column(
+                            //                       mainAxisAlignment: MainAxisAlignment.center,
+                            //                       children: [
+                            //                           Text(
+                            //                               "BEST",
+                            //                               style: TextStyle(
+                            //                                   color: Colors.white,
+                            //                                   fontSize: 20
+                            //                               ),
+                            //                           ),
+                            //                           SizedBox(height: 20),
+                            //                           Text(
+                            //                               "10",
+                            //                               style: TextStyle(
+                            //                                   fontFamily: 'Flappy-Bird',
+                            //                                   color: Colors.white,
+                            //                                   fontSize: 80
+                            //                               ),
+                            //                           )
+                            //                       ],
+                            //                   )
+                            //             ],
+                            //         ),
+                            //     ),
+                            // ),
 
                         ],
 
@@ -294,7 +304,6 @@ class _HomePageState extends State<HomePage> {
 
 /*
 
-
   Check if top/bottom borders of BIRD is colliding with bottom/top sides of barriers
 
   Check if 
@@ -302,6 +311,31 @@ class _HomePageState extends State<HomePage> {
 */
 
 
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_one_X , 1.1),
+//     child: MyBarrier(size: 300.0,),
+// ),
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_one_X , -1.1),
+//     child: MyBarrier(size: 300.0,),
+// ),
+
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_two_X , 1.1),
+//     child: MyBarrier(size: 150.0,),
+// ),
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_two_X , -1.1),
+//     child: MyBarrier(size: 250.0,),
+// )
 
 
 

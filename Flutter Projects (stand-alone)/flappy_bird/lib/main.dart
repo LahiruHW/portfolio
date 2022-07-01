@@ -18,9 +18,9 @@ import 'package:universal_io/io.dart' show Platform;
 
 void main() {
 
-    print('OS: ${Platform.operatingSystem}');
+    print('--------------------------------- CURRENT OPERATING SYSTEM: ${Platform.operatingSystem}');
 
-    runApp( MyAppMobile() );
+    // runApp( MyAppMobile() );
 
     if (Platform.operatingSystem == 'android' || Platform.operatingSystem == 'iOS' ) {
         runApp(  MyAppMobile() );
@@ -29,7 +29,6 @@ void main() {
         runApp( MyAppWeb() );
     }
 }
-
 
 class MyAppMobile extends StatelessWidget {
     @override

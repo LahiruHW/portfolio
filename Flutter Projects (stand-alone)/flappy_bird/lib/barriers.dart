@@ -62,7 +62,7 @@ class Barrier2 extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / (barrierWidth / 20),  
                  
                 // MediaQuery.of(context).size.height * 3 / 4 * (barrierHeight / 2),
-                height: (MediaQuery.of(context).size.height / 2) , 
+                height: (MediaQuery.of(context).size.height / 2) - (barrierHeight / 2) , 
 
                 decoration: BoxDecoration(
                     color: Colors.green,
