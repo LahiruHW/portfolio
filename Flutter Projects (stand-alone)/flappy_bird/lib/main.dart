@@ -11,7 +11,8 @@ import 'package:universal_io/io.dart' show Platform;
 //TODO: Add a new Menu page with buttons to: 
 //    1. Play (i.e. start) the game
 //    2. Show credits 
-//        (based on the original game created by Dong Nguyen) 
+//        (based on the original game created by Dong Nguyen)
+//        () 
 //    3. Visit my github page
 
 // void main() => runApp( MyApp() );

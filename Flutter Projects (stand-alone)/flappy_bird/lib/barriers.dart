@@ -50,19 +50,19 @@ class Barrier2 extends StatelessWidget {
     Widget build(BuildContext context) {
         return Container(
             
-            alignment: Alignment(barrierX , (isDownBarrier ? 1.1 : -1.1) ),
-            
+            alignment: Alignment(barrierX , (isDownBarrier ? 1.05 : -1.05) ),
             // alignment: Alignment( ((2 * barrierX) + barrierWidth) / (2 - barrierWidth) , (isDownBarrier ? 1 : -1)  ),
-            
             // transform: Matrix4.rotationZ( (isDownBarrier ? 0 : 1)  *pi),
             
             child: Container(
 
-                // MediaQuery.of(context).size.width * barrierWidth / 3
+                // width: MediaQuery.of(context).size.width * barrierWidth / 3
                 width: MediaQuery.of(context).size.width / (barrierWidth / 20),  
                  
                 // MediaQuery.of(context).size.height * 3 / 4 * (barrierHeight / 2),
-                height: (MediaQuery.of(context).size.height / 2) - (barrierHeight / 2) , 
+                // height: (MediaQuery.of(context).size.height / 2) - (barrierHeight / 2) , 
+                height: barrierHeight,
+
 
                 decoration: BoxDecoration(
                     color: Colors.green,
@@ -73,20 +73,24 @@ class Barrier2 extends StatelessWidget {
                     ),
                 )
 
-
             )
         );
     }
 
 }
-
-
-
-
-
-
 // Image.asset(
 //     'assets/images/pipe-green.png',
 //     width: 400.0,
 //     height: 400.0,
 // )
+
+
+
+class BarrierPair extends StatelessWidget{
+    @override
+    Widget build(BuildContext context) {
+        return Column();
+    }
+}
+
+
