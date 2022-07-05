@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_animations/stateless_animation/custom_animation.dart';
 
 
+// ignore: must_be_immutable
 class LoopingBase extends StatefulWidget {
 
   _LoopingBaseState ret = _LoopingBaseState();
@@ -22,7 +23,7 @@ class LoopingBase extends StatefulWidget {
 
 class _LoopingBaseState extends State<LoopingBase> {
 
-    static const int time = 3;
+    static const int time = 2;
 
     late CustomAnimationControl _control = CustomAnimationControl.stop;
 

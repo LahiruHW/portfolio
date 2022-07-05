@@ -34,6 +34,8 @@ dependencies:
   flutter_web_frame: ^0.0.3
   universal_io: ^2.0.4
   simple_animations: ^4.2.0
+  collision: ^0.0.3
+  async: ^2.8.2
   
 
 dev_dependencies:

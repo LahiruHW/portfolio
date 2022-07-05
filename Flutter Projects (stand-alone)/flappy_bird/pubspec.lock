@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: async
       url: "https://pub.dartlang.org"
@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
+  collision:
+    dependency: "direct main"
+    description:
+      name: collision
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   crypto:
     dependency: transitive
     description:

@@ -6,6 +6,7 @@ import 'package:flappy_bird/bird.dart';
 import 'package:flappy_bird/loopingBase.dart';
 import 'package:flappy_bird/staticRandomNumbers.dart';
 import 'package:flappy_bird/strokeText.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:simple_animations/simple_animations.dart';
@@ -17,35 +18,31 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
     static double bird_y_axis = 0;
 
-    late final AudioCache cache;
-    late final AudioPlayer player;
+    late final AudioCache audiocache;
+    late final AudioPlayer audioplayer;
 
 
-    double g_force = 1.5; // 2.5; //4.9;
-
+    double g_force = 1.25; //1.5; // 2.5; //4.9;
     double time = 0;
-
     double height = 0;
-
     double velocity = 1.0;
-
     double initialHeight = bird_y_axis;
+
+    static bool birdGoesUp = true;
 
     bool has_game_started = false;    
 
     static double barrier_one_X = 3;
-
     double barrier_two_X = barrier_one_X + 1.5;   ///////////////////// distance between barriers ( 0.75 <= d <= 1.5 )
 
     String game_theme = "day";      // "day" or "night"
 
     /// The distance between the barriers
     late double barrierGap = 100;
-
     late Size screenSize;
 
     // TODO: generate random heights (screen height*0.3) <= h <= (screen height*0.6)
@@ -54,6 +51,8 @@ class _HomePageState extends State<HomePage> {
          
 
     int score = 10;
+
+    late Bird playerBird;
 
     final OutlinedText get_ready_text = OutlinedText(
         "Get Ready!", 
@@ -80,22 +79,42 @@ class _HomePageState extends State<HomePage> {
     @override
     void initState(){
         super.initState(); 
-        player = AudioPlayer(
+
+        // playerBird = Bird(
+        //     birdHeight: 25, // 60,
+        //     birdWidth: 35,  // 60,
+        //     birdY: bird_y_axis
+        // );
+        audioplayer = AudioPlayer(
                 mode: PlayerMode.LOW_LATENCY
         );
-        cache = AudioCache( 
+        audiocache = AudioCache( 
             prefix: 'assets/audio/',
-            fixedPlayer: player
+            fixedPlayer: audioplayer
         );
         baseLoop = LoopingBase();
     }
 
+    @override
+    void dispose() {
+      super.dispose();
+    }
+
+
+    void _gameOverDialog(){
+        // create a new "FlappyDialog" widget????  idk🧍‍♂️ 
+    }
+
+
+
     void jump(){
-        cache.play('wing.wav');
+        birdGoesUp = !birdGoesUp;
+        audiocache.play('wing.wav');
         setState(() {
             time = 0;
             initialHeight = bird_y_axis;
         });
+        print(bottom_barrier_heights);
     }
 
     bool isBirdDead(){
@@ -103,30 +122,38 @@ class _HomePageState extends State<HomePage> {
       //if (bird_y_axis > 1 || bird_y_axis < -1){
       // if (bird_y_axis > 1.15){
       if (bird_y_axis > 0.7){
-          cache.play('die.wav');
+          audiocache.play('die.wav');
+          // cache.play('hit.wav');
           answer = true;
       } 
       return answer;
     }
 
-    void startGame(){
-        // bottom_barrier_heights.add(RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6));
-        // bottom_barrier_heights.add(RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6));
+    void startGame(BuildContext context){
+        screenSize = MediaQuery.of(context).size;
+        bottom_barrier_heights = [
+            RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6), 
+            RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6),
+        ];
+        
+        // bottom_barrier_heights = [ screenSize.height*0.3 , screenSize.height*0.6 ];
+
         has_game_started = true;
         baseLoop.start();
         Timer.periodic(
-            Duration(milliseconds: 60), 
+            Duration(milliseconds: 45), 
             (timer) {
                 time += 0.04;
                 height = (-g_force*time*time) + (velocity*time);
+                birdGoesUp = !birdGoesUp;
                 setState(() {
                     bird_y_axis = initialHeight - height;
-
+          
                     if (barrier_one_X < -3) { barrier_one_X = 3; }
                     else{ barrier_one_X -= 0.05; }
 
                     if (barrier_two_X < -3) { barrier_two_X = 3; }
-                    else{ barrier_two_X -= 0.05; }
+                    else{ barrier_two_X -=  0.05; }
 
                 });
 
@@ -148,15 +175,20 @@ class _HomePageState extends State<HomePage> {
 
     @override
     Widget build(BuildContext context) {
+        
         screenSize = MediaQuery.of(context).size;
+
         return GestureDetector( 
             onTap: () {
-                if ( has_game_started ){ jump(); }
-                else { startGame(); }
+                if ( has_game_started  && !isBirdDead() ){ jump(); }
+                else if ( !has_game_started && isBirdDead() ) { audiocache.play('swoosh.wav'); }
+                else { startGame(context); }
                 // print( "---------------------------------------screen height: ${screenSize.height}" );
                 // print( "---------------------------------------bottom height: ${bottom_barrier_heights[0]}" );
                 // print( "---------------------------------------top height: ${screenSize.height - (bottom_barrier_heights[0] + barrierGap)}" );
             },
+            // onTapUp: (TapUpDetails) => setState(() => birdGoesUp = !birdGoesUp),
+
             child: Scaffold(
                 
                 body: Container(
@@ -182,16 +214,14 @@ class _HomePageState extends State<HomePage> {
 
                                     children: [
 
+
                                         Bird(
-                                            birdHeight: 60,
-                                            birdWidth: 60,
-                                            birdY: bird_y_axis
+                                            birdHeight: 25, //60,
+                                            birdWidth: 35, // 60,
+                                            birdY: bird_y_axis,
+                                            directionUp: birdGoesUp,
                                         ),
 
-                                        Container(
-                                            alignment: Alignment(0, -0.25),
-                                            child: has_game_started ? Text("") : get_ready_text
-                                        ),
 
 
                                         // method to generate lower barriers
@@ -201,37 +231,39 @@ class _HomePageState extends State<HomePage> {
 
                                         // OR MAYBE JUST TEST THE BARRIER PAIR HERE (using Column + Flex)! 
 
-                                        Barrier2(
+                                        Barrier(
                                             barrierX: barrier_one_X,
                                             isDownBarrier: true,
                                             barrierWidth: 100.0,
-                                            // barrierHeight: bottom_barrier_heights[0],
-                                            barrierHeight: screenSize.height*0.3
+                                            barrierHeight: bottom_barrier_heights[0],
+                                            // barrierHeight: screenSize.height*0.3
                                         ),
-                                        Barrier2(
+                                        Barrier(
                                             barrierX: barrier_one_X,
                                             isDownBarrier: false,
                                             barrierWidth: 100.0,
-                                            // barrierHeight: screenSize.height - (bottom_barrier_heights[0] + barrierGap),
-                                            barrierHeight: screenSize.height - (screenSize.height*0.3 + barrierGap), 
+                                            barrierHeight: screenSize.height - (bottom_barrier_heights[0] + barrierGap),
+                                            // barrierHeight: screenSize.height - (screenSize.height*0.3 + barrierGap), 
                                         ),
 
 
 
-                                        Barrier2(
+
+                                        Barrier(
                                             barrierX: barrier_two_X,
                                             isDownBarrier: true,
                                             barrierWidth: 100.0,
-                                            // barrierHeight: bottom_barrier_heights[1],
-                                            barrierHeight: screenSize.height*0.6
+                                            barrierHeight: bottom_barrier_heights[1],
+                                            // barrierHeight: screenSize.height*0.6
                                         ),
-                                        Barrier2(
+                                        Barrier(
                                             barrierX: barrier_two_X,
                                             isDownBarrier: false,
                                             barrierWidth: 100.0,
-                                            // barrierHeight: screenSize.height - (bottom_barrier_heights[1] + barrierGap),
-                                            barrierHeight: screenSize.height - (screenSize.height*0.6 + barrierGap),
+                                            barrierHeight: screenSize.height - (bottom_barrier_heights[1] + barrierGap),
+                                            // barrierHeight: screenSize.height - (screenSize.height*0.6 + barrierGap),
                                         ),
+
 
 
                                         Container(
@@ -246,11 +278,10 @@ class _HomePageState extends State<HomePage> {
                                             )
                                         ), 
 
-                                        //////////////////////////////////////////////////////////////////////////////////
-                                        //////////////////////////////////////////////////////////////////////////////////
-                                        //////////////////////////////////////////////////////////////////////////////////                                        
-                                        //////////////////////////////////////////////////////////////////////////////////
-                                        //////////////////////////////////////////////////////////////////////////////////
+                                        Container(
+                                            alignment: Alignment(0, -0.25),
+                                            child: has_game_started ? Text("") : get_ready_text
+                                        ),
                                         
                                         baseLoop
                                         
@@ -260,6 +291,69 @@ class _HomePageState extends State<HomePage> {
                                 
 
                             ),
+
+
+
+                        ],
+
+
+
+                    ),
+
+                ),
+
+            )
+        );
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_one_X , 1.1),
+//     child: MyBarrier(size: 300.0,),
+// ),
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_one_X , -1.1),
+//     child: MyBarrier(size: 300.0,),
+// ),
+
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_two_X , 1.1),
+//     child: MyBarrier(size: 150.0,),
+// ),
+
+// AnimatedContainer(
+//     duration: Duration(milliseconds: 0),
+//     alignment: Alignment(barrier_two_X , -1.1),
+//     child: MyBarrier(size: 250.0,),
+// )
+
+
+
+// AnimatedContainer(
+//     // transform: Matrix4.rotationZ(radians),
+//     alignment: Alignment(0 , bird_y_axis),  /////////////// y-axis position of bird
+//     // color: Colors.blue,
+//     duration: Duration(),
+//     child: Bird() 
+// ),
+
+
 
                             // Expanded(
                             //     child: Container(
@@ -314,67 +408,3 @@ class _HomePageState extends State<HomePage> {
                             //         ),
                             //     ),
                             // ),
-
-                        ],
-
-
-
-                    ),
-
-                ),
-
-            )
-        );
-    }
-}
-
-
-
-
-
-// collision detection:
-
-/*
-
-  Check if top/bottom borders of BIRD is colliding with bottom/top sides of barriers
-
-  Check if 
-
-*/
-
-
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_one_X , 1.1),
-//     child: MyBarrier(size: 300.0,),
-// ),
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_one_X , -1.1),
-//     child: MyBarrier(size: 300.0,),
-// ),
-
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_two_X , 1.1),
-//     child: MyBarrier(size: 150.0,),
-// ),
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_two_X , -1.1),
-//     child: MyBarrier(size: 250.0,),
-// )
-
-
-
-// AnimatedContainer(
-//     // transform: Matrix4.rotationZ(radians),
-//     alignment: Alignment(0 , bird_y_axis),  /////////////// y-axis position of bird
-//     // color: Colors.blue,
-//     duration: Duration(),
-//     child: Bird() 
-// ),

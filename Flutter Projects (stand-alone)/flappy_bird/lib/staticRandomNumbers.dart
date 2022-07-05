@@ -10,8 +10,7 @@ class RandomNums{
   }
 
   static double getRandDouble(double min, double max){
-    min = (min == null) ? (0.0) : (min);
-    return randGen.nextDouble() * ( min + (max-min) );
+    return ( randGen.nextDouble() * min ) + (max-min);
   }
 
 }
