@@ -6,19 +6,23 @@ import 'barriers.dart';
 //TODO: ANIMATE THE ANGLE OF THE BIRD USING EITHER THE SAME ANIMATION, OR A NEW ANIMATION CONTROLLER.
 
 class Bird extends StatelessWidget {
-    
-    final birdY;
+    final Key key;
+    double birdY;
     final double birdWidth;   // normal double value for a width ---------------------- default = 60
     final double birdHeight;  // out of 2, 2 being the entire height of the screen ---- default = 60
     final bool directionUp;
 
     Bird({
-        this.birdY, 
+        required this.key,
+        required this.birdY, 
         required this.birdWidth, 
         required this.birdHeight,
         required this.directionUp
     });
     
+    // Key getKey() => this.key;    
+    void setY(double y) { this.birdY = y; }
+
     // Implement the collision detection between BIRD and a BARRIER objects
     bool collidesWith(Barrier barrierWidget){
 
@@ -30,12 +34,12 @@ class Bird extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {  
-        print(directionUp);
         return AnimatedContainer(
+            // key: key,
             alignment: Alignment(0, birdY),
             duration: Duration(),
             child: Transform.rotate(
-                angle: sin(birdY) * 0.5,
+                angle: birdY*0.5,
                 child:
                 Image.asset(
                     // 'assets/images/flappybird.png',
@@ -55,24 +59,3 @@ class Bird extends StatelessWidget {
 
 
 
-
-
-
-
-
-
-// class Bird1 extends StatelessWidget {
-//     @override
-//     Widget build(BuildContext context) {
-//         return Container(
-//             child: Image.asset('assets/images/flappybird.png'),
-//             height: 60,
-//             width: 60,
-//             // color: Colors.amber,
-//             decoration: BoxDecoration(
-//               shape: BoxShape.circle,
-//               color: Colors.amber
-//             ),
-//         );    
-//     }
-// }

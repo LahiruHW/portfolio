@@ -1,90 +1,82 @@
 import 'dart:async';
-
+import 'package:flappy_bird/gameOverDialog.dart';
+import 'package:flappy_bird/reUsedWidgets.dart';
+import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flappy_bird/barriers.dart';
 import 'package:flappy_bird/bird.dart';
 import 'package:flappy_bird/loopingBase.dart';
 import 'package:flappy_bird/staticRandomNumbers.dart';
 import 'package:flappy_bird/strokeText.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 
-// import 'package:simple_animations/simple_animations.dart';
+final birdKey = GlobalKey<_HomePageState>();
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
+class _HomePageState extends State<HomePage>{
 
     static double bird_y_axis = 0;
 
-    late final AudioCache audiocache;
-    late final AudioPlayer audioplayer;
+    static late final AudioCache audiocache;
+    static late final AudioPlayer audioplayer;
 
+    /// Random Number generator used throughout the runtime lifecycle
+    static final randGen = RandomNums();
 
-    double g_force = 1.25; //1.5; // 2.5; //4.9;
-    double time = 0;
-    double height = 0;
-    double velocity = 1.0;
-    double initialHeight = bird_y_axis;
+    static double g_force = 1.25; //1.5; // 2.5; //4.9;
+    static double time = 0;
+    static double height = 0;
+    static double velocity = 1.0;
+    static double initialHeight = bird_y_axis;
 
+    static late Bird playerBird;
     static bool birdGoesUp = true;
+    int score = 0;
 
     bool has_game_started = false;    
 
     static double barrier_one_X = 3;
     double barrier_two_X = barrier_one_X + 1.5;   ///////////////////// distance between barriers ( 0.75 <= d <= 1.5 )
 
-    String game_theme = "day";      // "day" or "night"
+    String game_theme = "night";  // change between "day" or "night"
 
     /// The distance between the barriers
-    late double barrierGap = 100;
+    late double barrierGap = 115;
+
+    /// Size object that stores screen dimensions
     late Size screenSize;
 
+    /// Stores the height of the device screen
+    late double screenHeight;
+
+    /// Stores the width of the device screen
+    late double screenWidth;
+
+    // ignore: todo
     // TODO: generate random heights (screen height*0.3) <= h <= (screen height*0.6)
-    late List<double> bottom_barrier_heights = [400, 250];
-    
-         
+    // ignore: non_constant_identifier_names
+    static late List<double> bottom_barrier_heights = [400, 250];
 
-    int score = 10;
+    // barrier queue
+    // static late List<Barrier?> bQueue = [];
 
-    late Bird playerBird;
+    bool showAbout = false;
 
-    final OutlinedText get_ready_text = OutlinedText(
-        "Get Ready!", 
-        font: 'Flappy-Bird', 
-        fontSize: 90,
-        textColor: Colors.greenAccent.shade700, 
-        strokeColor: Colors.white, 
-        strokeWidth: 6
-    );
-
-    final OutlinedText game_over_text = OutlinedText(
-        "GamE OvEr", 
-        font: 'Flappy-Bird', 
-        fontSize: 90,
-        textColor: Colors.orange.shade400, 
-        strokeColor: Colors.white, 
-        strokeWidth: 6
-    );
-
-
+    final OutlinedText getReadyText = ReUsedWidgets.getReadyText;
     late final LoopingBase baseLoop;
+    final AboutDialog aboutDialog = ReUsedWidgets.aboutDialog;
+
+    late final GameOverDialog gameOverMsg;
 
 
     @override
     void initState(){
-        super.initState(); 
-
-        // playerBird = Bird(
-        //     birdHeight: 25, // 60,
-        //     birdWidth: 35,  // 60,
-        //     birdY: bird_y_axis
-        // );
+        super.initState();
         audioplayer = AudioPlayer(
                 mode: PlayerMode.LOW_LATENCY
         );
@@ -92,20 +84,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             prefix: 'assets/audio/',
             fixedPlayer: audioplayer
         );
-        baseLoop = LoopingBase();
+        baseLoop = LoopingBase(); 
     }
 
-    @override
-    void dispose() {
-      super.dispose();
-    }
-
-
-    void _gameOverDialog(){
-        // create a new "FlappyDialog" widget????  idk🧍‍♂️ 
-    }
-
-
+    // void collision(){
+    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+    //       final RenderBox bird = birdKey.currentContext!.findRenderObject() as RenderBox;
+    //       print(bird.localToGlobal(Offset.zero).dx);
+    //       print(bird.localToGlobal(Offset.zero).dy);
+    //     });
+    // }
 
     void jump(){
         birdGoesUp = !birdGoesUp;
@@ -114,7 +102,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             time = 0;
             initialHeight = bird_y_axis;
         });
-        print(bottom_barrier_heights);
     }
 
     bool isBirdDead(){
@@ -122,8 +109,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
       //if (bird_y_axis > 1 || bird_y_axis < -1){
       // if (bird_y_axis > 1.15){
       if (bird_y_axis > 0.7){
-          audiocache.play('die.wav');
-          // cache.play('hit.wav');
           answer = true;
       } 
       return answer;
@@ -131,13 +116,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
     void startGame(BuildContext context){
         screenSize = MediaQuery.of(context).size;
-        bottom_barrier_heights = [
-            RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6), 
-            RandomNums.getRandDouble(screenSize.height*0.3, screenSize.height*0.6),
-        ];
-        
-        // bottom_barrier_heights = [ screenSize.height*0.3 , screenSize.height*0.6 ];
-
+        screenHeight = screenSize.height;
+        screenWidth = screenSize.width;
+        bottom_barrier_heights[0] = randGen.getRandDouble(screenHeight*0.3, screenHeight*0.6);
+        bottom_barrier_heights[1] = randGen.getRandDouble(screenHeight*0.3, screenHeight*0.6);
         has_game_started = true;
         baseLoop.start();
         Timer.periodic(
@@ -158,50 +140,39 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                 });
 
                 if ( isBirdDead() ){
+                    audiocache.play('die.wav');
                     baseLoop.stop();
                     timer.cancel();
                     has_game_started = false;
-                    
                     // if (Platform.isAndroid) {          // move this to the exit method!
                     //     SystemNavigator.pop();
                     // } else if (Platform.isIOS) {
                     //     exit(0);
                     // }
-
                 }
             }
         );
     }
 
-    @override
-    Widget build(BuildContext context) {
-        
-        screenSize = MediaQuery.of(context).size;
+    void resetGame(){
+    }
 
+    @override
+    Widget build(BuildContext context) {   
+        screenSize = MediaQuery.of(context).size;
+        screenHeight = screenSize.height;
+        screenWidth = screenSize.width;
         return GestureDetector( 
             onTap: () {
                 if ( has_game_started  && !isBirdDead() ){ jump(); }
                 else if ( !has_game_started && isBirdDead() ) { audiocache.play('swoosh.wav'); }
                 else { startGame(context); }
-                // print( "---------------------------------------screen height: ${screenSize.height}" );
-                // print( "---------------------------------------bottom height: ${bottom_barrier_heights[0]}" );
-                // print( "---------------------------------------top height: ${screenSize.height - (bottom_barrier_heights[0] + barrierGap)}" );
             },
-            // onTapUp: (TapUpDetails) => setState(() => birdGoesUp = !birdGoesUp),
 
-            child: Scaffold(
-                
+            child: Scaffold(                
                 body: Container(
-                    
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                            colorFilter: 
-                                (game_theme == "day") ? 
-                                  (ColorFilter.mode(Colors.blue.withOpacity(0.4), BlendMode.saturation)) 
-                                  : (null),
-                            image: AssetImage('assets/images/background-${game_theme}.png'),
-                            fit: BoxFit.fill
-                        )
+                        image: ReUsedWidgets.background(game_theme)
                     ),
 
                     child: Column(      
@@ -214,20 +185,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
                                     children: [
 
-
-                                        Bird(
-                                            birdHeight: 25, //60,
-                                            birdWidth: 35, // 60,
+                                        playerBird = Bird(
+                                            key: birdKey,
+                                            birdHeight: 25,
+                                            birdWidth: 35,
                                             birdY: bird_y_axis,
                                             directionUp: birdGoesUp,
-                                        ),
-
-
-
-                                        // method to generate lower barriers
-
-                                        // method to generate higher barriers
-
+                                        ),                                       
 
                                         // OR MAYBE JUST TEST THE BARRIER PAIR HERE (using Column + Flex)! 
 
@@ -236,55 +200,64 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                             isDownBarrier: true,
                                             barrierWidth: 100.0,
                                             barrierHeight: bottom_barrier_heights[0],
-                                            // barrierHeight: screenSize.height*0.3
                                         ),
                                         Barrier(
                                             barrierX: barrier_one_X,
                                             isDownBarrier: false,
                                             barrierWidth: 100.0,
-                                            barrierHeight: screenSize.height - (bottom_barrier_heights[0] + barrierGap),
-                                            // barrierHeight: screenSize.height - (screenSize.height*0.3 + barrierGap), 
+                                            barrierHeight: screenHeight - (bottom_barrier_heights[0] + barrierGap),
                                         ),
-
-
-
 
                                         Barrier(
                                             barrierX: barrier_two_X,
                                             isDownBarrier: true,
                                             barrierWidth: 100.0,
                                             barrierHeight: bottom_barrier_heights[1],
-                                            // barrierHeight: screenSize.height*0.6
                                         ),
                                         Barrier(
                                             barrierX: barrier_two_X,
                                             isDownBarrier: false,
                                             barrierWidth: 100.0,
-                                            barrierHeight: screenSize.height - (bottom_barrier_heights[1] + barrierGap),
-                                            // barrierHeight: screenSize.height - (screenSize.height*0.6 + barrierGap),
+                                            barrierHeight: screenHeight - (bottom_barrier_heights[1] + barrierGap),
                                         ),
-
-
 
                                         Container(
                                             alignment: Alignment(0, -0.5),
-                                            child: OutlinedScoreText(
-                                              "${score}", 
-                                              font: 'Flappy-Bird-Score', 
-                                              fontSize: 70, 
-                                              textColor: Colors.white, 
-                                              strokeColor: Colors.black, 
-                                              strokeWidth: 100
-                                            )
+                                            child: ReUsedWidgets.scoreText(score)
                                         ), 
+                                        
+                                        baseLoop,  
 
                                         Container(
                                             alignment: Alignment(0, -0.25),
-                                            child: has_game_started ? Text("") : get_ready_text
+                                            child: has_game_started ? null : ( !isBirdDead() ? getReadyText : 
+                                                GameOverDialog(
+                                                    button1Func: (){},
+                                                    button2Func: () => setState(() => showAbout = !showAbout),
+                                                )
+                                            )
                                         ),
-                                        
-                                        baseLoop
-                                        
+
+                                        showAbout ? aboutDialog : Text(""),
+
+                  // hitboxes here!
+                  //////////////////////////////////////////////////////////////////////////////////////////////////////
+                  ///////////////////////////////////// FOR DEBUGGING PURPOSES ONLY ////////////////////////////////////
+                  //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                        // Container(
+                                        //     alignment: Alignment(0, bird_y_axis),
+                                        //     child: Container(
+                                        //         height: 45,
+                                        //         width: 40,
+                                        //         decoration: BoxDecoration(
+                                        //             shape: BoxShape.circle,
+                                        //             // color: Colors.indigoAccent.shade700,              //deepPurple.shade900
+                                        //             border: Border.all( color: Colors.redAccent.shade400)
+                                        //         ),
+                                        //     ),    
+                                        // ),
+
                                     ],
 
                                 ),
@@ -292,11 +265,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
                             ),
 
-
-
                         ],
-
-
 
                     ),
 
@@ -308,103 +277,3 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_one_X , 1.1),
-//     child: MyBarrier(size: 300.0,),
-// ),
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_one_X , -1.1),
-//     child: MyBarrier(size: 300.0,),
-// ),
-
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_two_X , 1.1),
-//     child: MyBarrier(size: 150.0,),
-// ),
-
-// AnimatedContainer(
-//     duration: Duration(milliseconds: 0),
-//     alignment: Alignment(barrier_two_X , -1.1),
-//     child: MyBarrier(size: 250.0,),
-// )
-
-
-
-// AnimatedContainer(
-//     // transform: Matrix4.rotationZ(radians),
-//     alignment: Alignment(0 , bird_y_axis),  /////////////// y-axis position of bird
-//     // color: Colors.blue,
-//     duration: Duration(),
-//     child: Bird() 
-// ),
-
-
-
-                            // Expanded(
-                            //     child: Container(
-                            //         color: Colors.brown,
-                            //         child: Row(
-                            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            //             children: [
-                            //                   Column(
-                            //                       mainAxisAlignment: MainAxisAlignment.center,
-                            //                       children: [
-                            //                           Text(
-                            //                               "SCORE",
-                            //                               style: TextStyle(
-                            //                                   color: Colors.white,
-                            //                                   fontSize: 20
-                            //                               ),
-                            //                           ),
-                            //                           SizedBox(height: 20),
-                            //                           Text(
-                            //                               "0",
-                            //                               style: TextStyle(
-                            //                                   fontFamily: 'Flappy-Bird',
-                            //                                   color: Colors.white,
-                            //                                   fontSize: 80
-                            //                               ),
-                            //                           )
-                            //                       ],
-                            //                   ),
-
-                            //                   Column(
-                            //                       mainAxisAlignment: MainAxisAlignment.center,
-                            //                       children: [
-                            //                           Text(
-                            //                               "BEST",
-                            //                               style: TextStyle(
-                            //                                   color: Colors.white,
-                            //                                   fontSize: 20
-                            //                               ),
-                            //                           ),
-                            //                           SizedBox(height: 20),
-                            //                           Text(
-                            //                               "10",
-                            //                               style: TextStyle(
-                            //                                   fontFamily: 'Flappy-Bird',
-                            //                                   color: Colors.white,
-                            //                                   fontSize: 80
-                            //                               ),
-                            //                           )
-                            //                       ],
-                            //                   )
-                            //             ],
-                            //         ),
-                            //     ),
-                            // ),
