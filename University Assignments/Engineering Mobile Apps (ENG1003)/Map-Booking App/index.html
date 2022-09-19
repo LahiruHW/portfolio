@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<!------------------------------------------------------------------
+- Authors:  1. Hor Zu Hui  
+-           2. Zareh Kozanian
+-           3. Chia Zer
+-           4. LAHIRU HASARANGA WELIWITIYA
+- University: Monash University Malaysia
+- Degree: E3001 Bachelor of Engineering (Honours) 
+- Last modified: 21 May 2021
+- Purpuse: A welcoming page for the user which checks the local
+-          storage and verify if user is loading for the first time or no
+------------------------------------------------------------------>
+
+<html>
+
+<head>
+    <!-- Material Design Lite -->
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.purple-deep_purple.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Linking the favicon with this HTML-->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Linking the main.css with this HTML -->
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body>
+
+    <!-- Header of page which contains name and logo of app -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+        <header class="mdl-layout__header">
+            <div class="mdl-layout-icon"></div>
+        </header>
+
+    <!-- Header ends, and page content begins from here! -->
+        <main class="mdl-layout__content">
+            <div>
+                <br>
+                <br>
+
+                <div class="centered">
+                    <h1>Pristine Cabs</h1>
+                    <img id="splashIcon" src="img/favicon.png">
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <h4>Status of user: <span id="checkLocalStorage"></span></h4>
+
+                    <br>
+
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                        onclick="directBookingPage()">
+                        Start Booking
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Linking main.js and splashPage.js to this HTML -->
+    <script src="js/shared.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

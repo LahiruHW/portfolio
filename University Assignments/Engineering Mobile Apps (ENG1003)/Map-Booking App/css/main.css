@@ -1,0 +1,124 @@
+/*
+* Authors:  1. Hor Zu Hui
+*           2. Zareh Kozanian
+*           3. Chia Zer
+*           4. Lahiru Hasaranga Weliwitiya
+* University: Monash University Malaysia
+* Degree: E3001 Bachelor of Engineering (Hounors) 
+* Last modified: 21 May 2021
+* Purpose : Provide style for the HTML files
+*/
+
+#headerIcon {
+    width: 80px;
+    height: 80px;
+    background-size: 0px;
+    margin: 0px 100px 3px -15px;
+}
+
+.mdl-layout__title{
+    margin: 4px 2px 3px -15px;
+}
+
+#splashIcon {
+    width: 300px;
+    height: 300px;
+}
+
+#futureBookingCards, #currentBookingCards, #pastBookingCards, #viewSummary {
+    height: 21vh;
+    overflow: scroll;
+}
+
+.bookingHeader {
+    padding-left: 15px;
+}
+
+.mdl-grid {
+    background-color: lightblue;
+    margin: 10px;
+    border-radius: 15px;
+}
+
+.viewButton {
+    padding-left: 30px;
+}
+
+.cancelButton {
+    padding-left: 10px;
+}
+
+#map {
+    width: 90vw;
+    height: 60vh; 
+    margin: 5vw;
+    border: 0px solid black;
+    box-shadow: 5px 5px 15px black;
+    border-radius: 15px;
+}
+
+#inputBox {
+    margin: 2vw;
+    padding: 5px;
+    border: 0px solid black;
+    box-shadow: 5px 5px 15px black;
+    border-radius: 15px;
+    height: 26vh;
+    overflow: scroll;
+}
+
+#dateAndTimeInputButton, #pickUpAddressInputButton, #dropOffAddressesInputButton, #resetAddressInputButton, #taxiTypeInputButton {
+    text-align: center;
+}
+
+#pickUpAddressError, #dropOffAddressesError {
+    color: rgb(243, 10, 10);
+}
+
+#confirmPickUpButton, #confirmAllDropOffButton, #confirmTaxiTypeButton {
+    background-color: rgb(43, 168, 5);
+}
+
+.alert {
+    padding: 13px;
+    color: white;
+    margin-bottom: 18px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    box-shadow: 5px 5px 15px black;
+    border-radius: 20px;
+}
+
+.mdl-dialog{
+    background-color: rgb(250, 232, 255);
+    padding: 5px;
+    filter: blur();
+    color: #000;
+}
+
+#done {
+    background-color: rgb(145, 211, 107);
+}
+#not_done {
+    background-color: rgb(255, 138, 138);
+}
+
+#confirmDateTime {
+    background-color: rgb(43, 168, 5);
+}
+
+/* For all buttons that should be coloured dark green*/
+#submitButton{
+    background-color: rgb(9, 109, 0);    
+}
+
+/* For <hr> tags that shoud be invisible */
+.invisible_tags{
+    visibility: hidden;
+}
+
+/* For all items that should be centered */
+.centered{
+    text-align: center;
+}
+
