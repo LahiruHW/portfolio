@@ -7,7 +7,7 @@ This is a portfolio of all the coding (among other activities) I have ever done,
 
 ## NOTE:
 
-Please disregard any file with names that have "X"s in front of them (eg: `XXX_codefile.py`), as they are failed iterations of the same tasks, done (a few months) before they were initially pushed to this repo. I have no intention of filtering them out to only show the "good" side of my skills (if I have any [lol][3]). 
+Please disregard any file with names that have "X"s in front of them (eg: `XXX_codefile.py`), as they are failed iterations of the same tasks, done (a few months) before they were initially pushed to this repo. I have no intention of filtering them out to only show the "good" side of my skills [>🙂<][3]). 
  
 No one is perfect, and I am only [human][1]. <3  
 <br/>
