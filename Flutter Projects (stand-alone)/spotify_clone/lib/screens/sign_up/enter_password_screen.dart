@@ -259,7 +259,7 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
                     "password": encPass,
                   };
                   Navigator.of(context)
-                      .pushNamed(EnterGenderScreen.routeName, arguments: data);
+                      .pushNamed(EnterGenderScreen.routeName, arguments: data); 
                 }
               }
             },
