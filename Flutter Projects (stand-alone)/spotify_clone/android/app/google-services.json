@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "139274726264",
+    "project_id": "spotify-clone-capslock",
+    "storage_bucket": "spotify-clone-capslock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139274726264:android:dcf26ff755be2cd6f9b68d",
+        "android_client_info": {
+          "package_name": "com.example.spotify_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139274726264-gu769p9ifhrdj4f0mjm8irciqb1hajfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYb8zTzHOFdap6V6ekE7CbGxoPMyH6Va0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139274726264-gu769p9ifhrdj4f0mjm8irciqb1hajfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
