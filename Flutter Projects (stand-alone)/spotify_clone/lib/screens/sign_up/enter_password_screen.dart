@@ -248,18 +248,19 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
 
                 if (validInput == false) {
                   showSnackBar(context, errorMsg);
+                } else {
+                  final encPass =
+                      await SpotifyServices.encryptPassword(password);
+                  // await SpotifyServices.decryptPassword(encryptedPassword);
+
+                  dynamic data = ModalRoute.of(context)?.settings.arguments;
+                  data = {
+                    ...data,
+                    "password": encPass,
+                  };
+                  Navigator.of(context)
+                      .pushNamed(EnterGenderScreen.routeName, arguments: data);
                 }
-
-                final encPass = await SpotifyServices.encryptPassword(password);
-                // await SpotifyServices.decryptPassword(encryptedPassword);
-
-                dynamic data = ModalRoute.of(context)?.settings.arguments;
-                data = {
-                  ...data,
-                  "password": encPass,
-                };
-                Navigator.of(context)
-                    .pushNamed(EnterGenderScreen.routeName, arguments: data);
               }
             },
           ),
