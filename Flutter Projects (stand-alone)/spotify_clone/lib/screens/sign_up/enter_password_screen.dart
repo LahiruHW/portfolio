@@ -77,36 +77,43 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
   String currentInput = "";
   bool validInput = false;
   bool passwordVisible = false;
+  String errorMsg = "Please enter a password";
 
-  bool isPasswordValid(String password) {
+  List isPasswordValid(String password) {
     bool answer = true;
+    String msg = "";
 
     // check if it has at least 8 characters
     if (password.length < 8) {
       answer = answer && false;
+      msg = "Password must be at least 8 characters long";
     }
 
     // check if it has any digits in it
     if (!password.contains(RegExp(r'[0-9]'))) {
       answer = answer && false;
+      msg = "Password must contain at least 1 digit";
     }
 
     // check if it has any special characters
     if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       answer = answer && false;
+      msg = "Password must contain at least 1 special character";
     }
 
     // check if it has any uppercase letters
     if (!password.contains(RegExp(r'[A-Z]'))) {
       answer = answer && false;
+      msg = "Password must contain at least 1 uppercase character";
     }
 
     // check if it has any lowercase letters
     if (!password.contains(RegExp(r'[a-z]'))) {
       answer = answer && false;
+      msg = "Password must contain at least 1 lowercase character";
     }
 
-    return answer;
+    return [answer, msg];
   }
 
   @override
@@ -115,10 +122,19 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
       String current = _textEditingController.text;
-      if (isPasswordValid(current)) {
+
+      List arr = isPasswordValid(current);
+
+      bool valid = arr[0];
+      String msg = arr[1];
+
+      if (valid) {
         setState(() => validInput = true);
       } else {
-        setState(() => validInput = false);
+        setState(() {
+          validInput = false;
+          errorMsg = msg;
+        });
       }
       currentInput = current;
     });
@@ -135,7 +151,6 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Align(
           alignment: Alignment.centerLeft,
@@ -188,15 +203,13 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color:
-                    (validInput == true) ? validInputColor : invalidInputColor,
+                color: (validInput) ? validInputColor : invalidInputColor,
                 width: 2.0,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color:
-                    (validInput == true) ? validInputColor : invalidInputColor,
+                color: (validInput) ? validInputColor : invalidInputColor,
                 width: 2.0,
               ),
             ),
@@ -232,6 +245,11 @@ class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
                 showSnackBar(context, "Please enter a valid password");
               } else {
                 final password = _textEditingController.text;
+
+                if (validInput == false) {
+                  showSnackBar(context, errorMsg);
+                }
+
                 final encPass = await SpotifyServices.encryptPassword(password);
                 // await SpotifyServices.decryptPassword(encryptedPassword);
 
