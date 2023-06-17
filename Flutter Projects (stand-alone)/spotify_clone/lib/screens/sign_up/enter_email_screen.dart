@@ -71,18 +71,30 @@ class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
   final Color invalidInputColor = Colors.red;
   String currentInput = "";
   bool validInput = false;
+  String errorMsg = "Please Enter a valid email address";
 
-  bool isEmailValid(String email) {
+  List isEmailValid(String email) {
+    bool answer = true;
+    String msg = "Please enter a valid email address";
     if (email.isEmpty) {
-      return false;
-    }
-    bool answer =
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.com")
-            .hasMatch(email);
-    if (email.substring(email.length - 4) != ".com") {
       answer = answer && false;
+      msg = "Please enter an email address";
+      return [answer, msg];
     }
-    return answer;
+
+    bool regexCheck = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.com$")
+        .hasMatch(email);
+    // bool regexCheck2 = RegExp(
+    //         r"/^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.com/")
+    //     .hasMatch(email);
+
+    if (regexCheck == false) {
+      answer = answer && false;
+      msg = "Please enter a valid email address";
+    }
+
+    return [answer, msg];
   }
 
   @override
@@ -93,10 +105,17 @@ class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
       String current = _textEditingController.text;
 
       try {
-        if (isEmailValid(current)) {
+        List arr = isEmailValid(current);
+        bool valid = arr[0];
+        String msg = arr[1];
+
+        if (valid) {
           setState(() => validInput = true);
         } else {
-          setState(() => validInput = false);
+          setState(() {
+            errorMsg = msg;
+            validInput = false;
+          });
         }
         currentInput = current;
       } catch (e) {
@@ -192,15 +211,13 @@ class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
             child: SubmitButton(
               title: "Next",
               onPressed: () {
-                final val = _textEditingController.text;
-
-                if (val.isEmpty) {
-                  setState(() => validInput = false);
-                  showSnackBar(context, "Please enter a valid email address");
+                if (validInput == false) {
+                  showSnackBar(context, errorMsg);
                 } else {
                   // OR JUST SAVE IT TO PROVIDER/SHARED PREFERENCES
 
                   dynamic data = {"email": currentInput};
+                  // dynamic data = {"email": val};
 
                   print(
                       "------------------------------- Next page is ${EnterPasswordScreen.routeName}");

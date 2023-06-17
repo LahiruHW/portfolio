@@ -350,9 +350,6 @@ class _SpotifyNameInputState extends State<SpotifyNameInput> {
                   backGroundColor: Colors.white,
                   titleColor: Colors.black,
                   onPressed: () async {
-                    // ignore: unused_local_variable
-                    final val = _textEditingController.text;
-
                     if (validInput == false) {
                       setState(() => validInput = false);
                       showSnackBar(context, errorMsg);
@@ -389,7 +386,6 @@ class _SpotifyNameInputState extends State<SpotifyNameInput> {
                       // setup the user's settings
                       userStateModel.setCurrentUser(newUser);
                       userStateModel.setCurrentUserSettings(newUser.settings);
-
 
                       Navigator.of(context).pushNamed(
                         SelectArtistScreen.routeName,
