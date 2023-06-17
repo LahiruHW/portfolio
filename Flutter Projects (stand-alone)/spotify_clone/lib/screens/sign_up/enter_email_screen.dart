@@ -101,10 +101,10 @@ class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
   void initState() {
     super.initState();
     _textEditingController = TextEditingController();
-    _textEditingController.addListener(() {
-      String current = _textEditingController.text;
+    _textEditingController.addListener(
+      () {
+        String current = _textEditingController.text;
 
-      try {
         List arr = isEmailValid(current);
         bool valid = arr[0];
         String msg = arr[1];
@@ -118,10 +118,8 @@ class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
           });
         }
         currentInput = current;
-      } catch (e) {
-        print(e);
-      }
-    });
+      },
+    );
   }
 
   @override
