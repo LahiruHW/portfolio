@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class SubmitButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String title;
   Color backGroundColor;
   Color overlayColor;
@@ -11,7 +11,7 @@ class SubmitButton extends StatelessWidget {
 
   SubmitButton({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.title,
     this.titleColor = Colors.white,
     this.backGroundColor = const Color.fromRGBO(83, 83, 83, 1.0),

@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:spotify_clone/components/button_submit.dart';
 import 'package:spotify_clone/entities/User.dart';
 import 'package:spotify_clone/screens/sign_up/enter_gender_screen.dart';
-import 'package:spotify_clone/utilities/create_route.dart';
+import 'package:spotify_clone/services/spotify_services.dart';
 import 'package:spotify_clone/utilities/show_snackbar.dart';
 
 class EnterPasswordScreen extends StatelessWidget {
@@ -10,8 +11,12 @@ class EnterPasswordScreen extends StatelessWidget {
     super.key,
   });
 
+  static const String routeName = "/sign_up_password_screen";
+
   @override
   Widget build(BuildContext context) {
+    print(
+        "------------------------------- received data from ${EnterPasswordScreen.routeName} ----- ${ModalRoute.of(context)?.settings}");
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -44,7 +49,7 @@ class EnterPasswordScreen extends StatelessWidget {
         ),
         body: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 25),
-          child: SpotifyTextInput(),
+          child: SpotifyPasswordInput(),
         ),
       ),
     );
@@ -55,20 +60,21 @@ class EnterPasswordScreen extends StatelessWidget {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpotifyTextInput extends StatefulWidget {
-  const SpotifyTextInput({
+class SpotifyPasswordInput extends StatefulWidget {
+  const SpotifyPasswordInput({
     super.key,
   });
 
   @override
-  State<SpotifyTextInput> createState() => _SpotifyTextInputState();
+  State<SpotifyPasswordInput> createState() => _SpotifyPasswordInputState();
 }
 
-class _SpotifyTextInputState extends State<SpotifyTextInput> {
+class _SpotifyPasswordInputState extends State<SpotifyPasswordInput> {
   late final TextEditingController _textEditingController;
 
   final Color validInputColor = const Color.fromARGB(255, 30, 215, 96);
   final Color invalidInputColor = Colors.red;
+  String currentInput = "";
   bool validInput = false;
   bool passwordVisible = false;
 
@@ -114,6 +120,7 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
       } else {
         setState(() => validInput = false);
       }
+      currentInput = current;
     });
   }
 
@@ -216,7 +223,7 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
           ),
           child: SubmitButton(
             title: "Next",
-            onPressed: () {
+            onPressed: () async {
               // ignore: unused_local_variable
               final val = _textEditingController.text;
 
@@ -224,13 +231,17 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
                 setState(() => validInput = false);
                 showSnackBar(context, "Please enter a valid password");
               } else {
-                // OR JUST SAVE IT TO PROVIDER/SHARED PREFERENCES
-                Navigator.of(context).push(
-                  createRouteTo(
-                    // const EnterPasswordScreen(),
-                    const EnterGenderScreen(),
-                  ),
-                );
+                final password = _textEditingController.text;
+                final encPass = await SpotifyServices.encryptPassword(password);
+                // await SpotifyServices.decryptPassword(encryptedPassword);
+
+                dynamic data = ModalRoute.of(context)?.settings.arguments;
+                data = {
+                  ...data,
+                  "password": encPass,
+                };
+                Navigator.of(context)
+                    .pushNamed(EnterGenderScreen.routeName, arguments: data);
               }
             },
           ),

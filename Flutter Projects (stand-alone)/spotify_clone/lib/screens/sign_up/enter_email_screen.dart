@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_clone/components/button_submit.dart';
 import 'package:spotify_clone/screens/sign_up/enter_password_screen.dart';
-import 'package:spotify_clone/utilities/create_route.dart';
 import 'package:spotify_clone/utilities/show_snackbar.dart';
 
 class EnterEmailScreen extends StatelessWidget {
   const EnterEmailScreen({
     super.key,
   });
+
+  static const String routeName = "/sign_up_email_screen";
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class EnterEmailScreen extends StatelessWidget {
         ),
         body: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 25),
-          child: SpotifyTextInput(),
+          child: SpotifyEmailInput(),
         ),
       ),
     );
@@ -54,20 +55,21 @@ class EnterEmailScreen extends StatelessWidget {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpotifyTextInput extends StatefulWidget {
-  const SpotifyTextInput({
+class SpotifyEmailInput extends StatefulWidget {
+  const SpotifyEmailInput({
     super.key,
   });
 
   @override
-  State<SpotifyTextInput> createState() => _SpotifyTextInputState();
+  State<SpotifyEmailInput> createState() => _SpotifyEmailInputState();
 }
 
-class _SpotifyTextInputState extends State<SpotifyTextInput> {
+class _SpotifyEmailInputState extends State<SpotifyEmailInput> {
   late final TextEditingController _textEditingController;
 
   final Color validInputColor = const Color.fromARGB(255, 30, 215, 96);
   final Color invalidInputColor = Colors.red;
+  String currentInput = "";
   bool validInput = false;
 
   bool isEmailValid(String email) {
@@ -89,10 +91,16 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
       String current = _textEditingController.text;
-      if (isEmailValid(current)) {
-        setState(() => validInput = true);
-      } else {
-        setState(() => validInput = false);
+
+      try {
+        if (isEmailValid(current)) {
+          setState(() => validInput = true);
+        } else {
+          setState(() => validInput = false);
+        }
+        currentInput = current;
+      } catch (e) {
+        print(e);
       }
     });
   }
@@ -175,31 +183,32 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
           onChanged: (string) {},
         ),
         Padding(
-          padding: const EdgeInsets.only(
-            top: 50,
-            bottom: 20,
-            left: 20,
-            right: 20,
-          ),
-          child: SubmitButton(
-            title: "Next",
-            onPressed: () {
-              final val = _textEditingController.text;
+            padding: const EdgeInsets.only(
+              top: 50,
+              bottom: 20,
+              left: 20,
+              right: 20,
+            ),
+            child: SubmitButton(
+              title: "Next",
+              onPressed: () {
+                final val = _textEditingController.text;
 
-              if (val.isEmpty) {
-                setState(() => validInput = false);
-                showSnackBar(context, "Please enter a valid email address");
-              } else {
-                // OR JUST SAVE IT TO PROVIDER/SHARED PREFERENCES
-                Navigator.of(context).push(
-                  createRouteTo(
-                    const EnterPasswordScreen(),
-                  ),
-                );
-              }
-            },
-          )
-        )
+                if (val.isEmpty) {
+                  setState(() => validInput = false);
+                  showSnackBar(context, "Please enter a valid email address");
+                } else {
+                  // OR JUST SAVE IT TO PROVIDER/SHARED PREFERENCES
+
+                  dynamic data = {"email": currentInput};
+
+                  print(
+                      "------------------------------- Next page is ${EnterPasswordScreen.routeName}");
+                  Navigator.of(context).pushNamed(EnterPasswordScreen.routeName,
+                      arguments: data);
+                }
+              },
+            ))
       ],
     );
   }

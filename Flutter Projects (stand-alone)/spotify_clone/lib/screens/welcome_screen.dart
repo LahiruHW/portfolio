@@ -1,7 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify_clone/screens/login_screen.dart';
 import 'package:spotify_clone/screens/sign_up/enter_email_screen.dart';
 import '../components/button_login.dart';
-import '../utilities/create_route.dart';
 
 class WelcomeScreen extends StatelessWidget {
   /// The main entry point for the application, directing
@@ -10,11 +11,14 @@ class WelcomeScreen extends StatelessWidget {
     super.key,
   });
 
+  static const String routeName = "/welcome_screen";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(166, 27, 26, 28),
+      // backgroundColor: const Color.fromARGB(166, 27, 26, 28),
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1.0),
       body: Stack(
         children: [
           Image.asset(
@@ -58,10 +62,9 @@ class WelcomeScreen extends StatelessWidget {
                     height: 70,
                     onPressed: () {
                       print("------------------------------- Sign Up For Free");
-                      Navigator.of(context).push(
-                        createRouteTo(
-                          const EnterEmailScreen(),
-                        ),
+                      print("Next screen: ${EnterEmailScreen.routeName}");
+                      Navigator.of(context).pushNamed(
+                        EnterEmailScreen.routeName,
                       );
                     },
                     borderColor: Colors.transparent,
@@ -106,6 +109,24 @@ class WelcomeScreen extends StatelessWidget {
                     headerIcon: Image.asset(
                         "assets/images/logos/apple_white.png",
                         scale: 1.6),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: RichText(
+                      text: TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Navigator.of(context).pushNamed(
+                                LoginScreen.routeName,
+                              ),
+                        text: "Log In",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: "Avenir Next",
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

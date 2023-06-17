@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-ScaffoldFeatureController showSnackBar(BuildContext context, String message) {
+ScaffoldFeatureController showSnackBar(BuildContext context, String message, {Color barColor=Colors.red}) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.symmetric(
@@ -18,7 +18,7 @@ ScaffoldFeatureController showSnackBar(BuildContext context, String message) {
           fontWeight: FontWeight.w400,
         ),
       ),
-      backgroundColor: Colors.red,
+      backgroundColor: barColor,
     ),
   );
 }

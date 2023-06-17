@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_clone/components/button_submit.dart';
 import 'package:spotify_clone/screens/sign_up/enter_name_screen.dart';
-import 'package:spotify_clone/utilities/create_route.dart';
+import 'package:spotify_clone/screens/sign_up/enter_password_screen.dart';
 
 class EnterGenderScreen extends StatelessWidget {
   const EnterGenderScreen({
     super.key,
   });
 
+  static const routeName = "/sign_up_gender_screen";
+
   @override
   Widget build(BuildContext context) {
+    print(
+        "------------------------------- received data from ${EnterPasswordScreen.routeName} ----- ${ModalRoute.of(context)?.settings}");
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -41,7 +45,7 @@ class EnterGenderScreen extends StatelessWidget {
         ),
         body: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 25),
-          child: SpotifyTextInput(),
+          child: SpotifyGenderInput(),
         ),
       ),
     );
@@ -52,16 +56,16 @@ class EnterGenderScreen extends StatelessWidget {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class SpotifyTextInput extends StatefulWidget {
-  const SpotifyTextInput({
+class SpotifyGenderInput extends StatefulWidget {
+  const SpotifyGenderInput({
     super.key,
   });
 
   @override
-  State<SpotifyTextInput> createState() => _SpotifyTextInputState();
+  State<SpotifyGenderInput> createState() => _SpotifyGenderInputState();
 }
 
-class _SpotifyTextInputState extends State<SpotifyTextInput> {
+class _SpotifyGenderInputState extends State<SpotifyGenderInput> {
   final Color validInputColor = const Color.fromARGB(255, 30, 215, 96);
   final Color invalidInputColor = Colors.red;
   String dropDownVal = "M";
@@ -118,9 +122,18 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
               // style: dropDownTextStyle,
               isExpanded: true,
               items: const [
-                DropdownMenuItem(value: "M", child: Text("Male", style: TextStyle(fontFamily: "Avenir Next"))),
-                DropdownMenuItem(value: "F", child: Text("Female", style: TextStyle(fontFamily: "Avenir Next"))),
-                DropdownMenuItem(value: "X", child: Text("Other", style: TextStyle(fontFamily: "Avenir Next"))),
+                DropdownMenuItem(
+                    value: "M",
+                    child: Text("Male",
+                        style: TextStyle(fontFamily: "Avenir Next"))),
+                DropdownMenuItem(
+                    value: "F",
+                    child: Text("Female",
+                        style: TextStyle(fontFamily: "Avenir Next"))),
+                DropdownMenuItem(
+                    value: "X",
+                    child: Text("Other",
+                        style: TextStyle(fontFamily: "Avenir Next"))),
                 // DropdownMenuItem(value: "M", child: Text("Male")),
                 // DropdownMenuItem(value: "F", child: Text("Female")),
                 // DropdownMenuItem(value: "X", child: Text("Other")),
@@ -142,13 +155,10 @@ class _SpotifyTextInputState extends State<SpotifyTextInput> {
             child: SubmitButton(
               title: "Next",
               onPressed: () {
-
-                Navigator.of(context).push(
-                  createRouteTo(
-                    const EnterNameScreen(),
-                  ),
-                );
-
+                dynamic data = ModalRoute.of(context)?.settings.arguments;
+                data = {...data, "gender": dropDownVal};
+                Navigator.of(context)
+                    .pushNamed(EnterNameScreen.routeName, arguments: data);
               },
             ))
       ],

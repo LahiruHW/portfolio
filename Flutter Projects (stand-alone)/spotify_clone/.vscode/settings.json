@@ -1,4 +1,8 @@
 {
     "cmake.sourceDirectory": "D:/My SOFTWARE/FLUTTER SAVES/spotify_clone/windows",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "python.formatting.provider": "none"
 }
