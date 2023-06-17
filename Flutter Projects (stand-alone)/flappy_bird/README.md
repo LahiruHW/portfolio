@@ -8,7 +8,7 @@ LAST UPDATE:
 
 * State of Project: 
 ```diff
-- INCOMPLETE
+- INCOMPLETE (TERMINATED)
 ```
 ###### (Terminated due to the difficulties of implementation due to the limitations of the approach chosen + personal reasons).
 
