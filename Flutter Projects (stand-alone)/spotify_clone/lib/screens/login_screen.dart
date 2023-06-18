@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spotify_clone/components/button_submit.dart';
+import 'package:spotify_clone/providers/global_state_provider.dart';
+import 'package:spotify_clone/screens/sign_up/select_artists_screen.dart';
 import 'package:spotify_clone/services/spotify_services.dart';
 import 'package:spotify_clone/utilities/show_snackbar.dart';
 
@@ -80,144 +83,156 @@ class _LoginInputState extends State<LoginInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(
-              "Email",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: "Avenir Next",
-                fontWeight: FontWeight.w700,
+    return Consumer<SpotifyUserStateProvider>(
+      builder: (context, userSettingsModel, child) {
+        return Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  "Email",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontFamily: "Avenir Next",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        TextField(
-          autofocus: false,
-          keyboardType: TextInputType.emailAddress,
-          controller: _textEditingController1,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 10,
-            ),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent, width: 2.0),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent, width: 2.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent, width: 2.0),
-            ),
-            fillColor: Color.fromRGBO(119, 119, 119, 1.0),
-            filled: true,
-          ),
-          onChanged: (string) {},
-        ),
-        const SizedBox(height: 40),
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(
-              "Password",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: "Avenir Next",
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-        TextField(
-          obscureText: !passwordVisible,
-          obscuringCharacter: "●",
-          autofocus: false,
-          keyboardType: TextInputType.emailAddress,
-          controller: _textEditingController2,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-            suffixIcon: IconButton(
-              splashColor: Colors.transparent,
-              icon: Icon(
-                (passwordVisible) ? Icons.visibility : Icons.visibility_off,
+            TextField(
+              autofocus: false,
+              keyboardType: TextInputType.emailAddress,
+              controller: _textEditingController1,
+              style: const TextStyle(
                 color: Colors.white,
               ),
-              onPressed: () {
-                setState(() => passwordVisible = !passwordVisible);
-              },
+              decoration: const InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                ),
+                fillColor: Color.fromRGBO(119, 119, 119, 1.0),
+                filled: true,
+              ),
+              onChanged: (string) {},
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 10,
-            ),
-            border: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.transparent,
-                width: 2.0,
+            const SizedBox(height: 40),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  "Password",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontFamily: "Avenir Next",
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+            TextField(
+              obscureText: !passwordVisible,
+              obscuringCharacter: "●",
+              autofocus: false,
+              keyboardType: TextInputType.emailAddress,
+              controller: _textEditingController2,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  splashColor: Colors.transparent,
+                  icon: Icon(
+                    (passwordVisible) ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() => passwordVisible = !passwordVisible);
+                  },
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 10,
+                ),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 2.0,
+                  ),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 2.0),
+                ),
+                fillColor: const Color.fromRGBO(119, 119, 119, 1.0),
+                filled: true,
+              ),
+              onChanged: (string) {},
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent, width: 2.0),
-            ),
-            fillColor: const Color.fromRGBO(119, 119, 119, 1.0),
-            filled: true,
-          ),
-          onChanged: (string) {},
-        ),
-        const SizedBox(height: 40),
-        SubmitButton(
-          title: loading == true ? "Logging in..." : "Log in",
-          backGroundColor: loading ? Colors.grey : Colors.white,
-          titleColor: Colors.black,
-          onPressed: loading == true
-              ? null
-              : () async {
-                  setState(() => loading = true);
+            const SizedBox(height: 40),
+            SubmitButton(
+              title: loading == true ? "Logging in..." : "Log in",
+              backGroundColor: loading ? Colors.grey : Colors.white,
+              titleColor: Colors.black,
+              onPressed: loading == true
+                  ? null
+                  : () async {
+                      setState(() => loading = true);
 
-                  bool isValidUser = await SpotifyServices.verifyUser(
-                      currentEmailInput, currentPasswordInput);
+                      bool isValidUser = await SpotifyServices.verifyUser(
+                          currentEmailInput, currentPasswordInput);
 
-                  if (isValidUser) {
-                    Future.delayed(
-                      const Duration(seconds: 3),
-                      () {
-                        showSnackBar(context, "Valid user",
-                            barColor: Colors.green);
-                        setState(() => loading = false);
-                        Navigator.of(context).pushNamed("/welcome_screen");
-                      },
-                    );
-                  } else {
-                    Future.delayed(
-                      const Duration(seconds: 2),
-                      () {
-                        showSnackBar(context, "Invalid Email or Password");
-                        setState(() => loading = false);
-                      },
-                    );
-                  }
-                },
-        ),
-      ],
+                      if (isValidUser) {
+                        Future.delayed(
+                          const Duration(seconds: 3),
+                          () async {
+                            showSnackBar(context, "Valid user",
+                                barColor: Colors.green);
+                            setState(() => loading = false);
+
+                            // get the user from the database and setup the data model
+                            final thisUser = await SpotifyServices.getUserByDetails(
+                                currentEmailInput, currentPasswordInput);
+
+                            userSettingsModel.setCurrentUser(thisUser);
+                            userSettingsModel.setCurrentUserSettings(thisUser.settings);
+
+                            Navigator.of(context).pushNamed(SelectArtistScreen.routeName);
+                          },
+                        );
+                      } else {
+                        Future.delayed(
+                          const Duration(seconds: 2),
+                          () {
+                            showSnackBar(context, "Invalid Email or Password");
+                            setState(() => loading = false);
+                          },
+                        );
+                      }
+                    },
+            ),
+          ],
+        );
+      },
     );
   }
 }

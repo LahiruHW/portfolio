@@ -6,7 +6,7 @@ import 'package:spotify_clone/components/button_submit.dart';
 import 'package:spotify_clone/entities/user.dart';
 import 'package:spotify_clone/providers/global_state_provider.dart';
 import 'package:spotify_clone/screens/sign_up/select_artists_screen.dart';
-import 'package:spotify_clone/services/spotify_services.dart';
+// import 'package:spotify_clone/services/spotify_services.dart';
 import 'package:spotify_clone/utilities/show_snackbar.dart';
 
 import 'enter_gender_screen.dart';
@@ -378,15 +378,13 @@ class _SpotifyNameInputState extends State<SpotifyNameInput> {
                       });
 
                       print("convertedMap" + convertedMap.toString());
-
                       SpotifyUser newUser = SpotifyUser.fromJson(convertedMap);
-                      String id = await SpotifyServices.addNewUser(newUser);
-                      newUser.setID(id);
-
-                      // setup the user's settings
-                      userStateModel.setCurrentUser(newUser);
-                      userStateModel.setCurrentUserSettings(newUser.settings);
-
+                      userStateModel.addNewUser(newUser);
+                      // String id = await SpotifyServices.addNewUser(newUser);
+                      // newUser.setID(id);
+                      // // setup the user's settings
+                      // userStateModel.setCurrentUser(newUser);
+                      // userStateModel.setCurrentUserSettings(newUser.settings);
                       Navigator.of(context).pushNamed(
                         SelectArtistScreen.routeName,
                         arguments: data,

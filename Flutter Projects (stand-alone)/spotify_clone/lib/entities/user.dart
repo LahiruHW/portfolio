@@ -1,3 +1,4 @@
+
 import 'package:spotify_clone/entities/user_settings.dart';
 
 /// A class that represents a user entity of the Spotify Clone app.
@@ -27,31 +28,40 @@ class SpotifyUser {
     required this.lastName,
     required this.gender,
     required this.settings,
+    this.userID = "",
   });
 
   void setID(String id) {
     userID = id;
   }
 
-  toJson() {
+  Map<String, dynamic> toJson({String? userID = ""}) {
     return {
       "email": email,
       "password": password,
       "firstName": firstName,
       "lastName": lastName,
       "gender": gender,
-      "settings": settings.toJson(),
+      "settings": settings.toJson(userID: userID),
+      "userID": userID,
     };
   }
 
   factory SpotifyUser.fromJson(Map<String, dynamic> json) {
     late Map<String, dynamic> theseSettings;
+    late String thisID;
 
     if (json["settings"].isEmpty) {
       final newSettings = UserSettings();
       theseSettings = newSettings.toJson();
     } else {
       theseSettings = (json["settings"]);
+    }
+
+    if (json["userID"] == null) {
+      thisID = "";
+    } else {
+      thisID = json["userID"];
     }
 
     return SpotifyUser(
@@ -61,6 +71,7 @@ class SpotifyUser {
       lastName: json["lastName"],
       gender: json["gender"],
       settings: UserSettings.fromJson(theseSettings),
+      userID: thisID,
     );
   }
 }

@@ -12,7 +12,6 @@ class UserSettings {
   // under "Playback" in Settings
   bool offlineMode;
   double crossfadeVal;
-
   bool gaplessPlayback;
   bool autoMix;
   bool allowExplicitContent;
@@ -24,11 +23,11 @@ class UserSettings {
   bool canvas;
 
   // under "Devices" in Settings
-  List devices;
+  List<String> devices;
   bool showLocalDevicesOnly;
   bool spotifyConnectInBackground;
 
-  // 
+  // show a message for the rest of the settings "NOT FOR COMMERCIAL USE"
 
   /// Manages the settings of the app for a particular user
   UserSettings({
@@ -52,9 +51,7 @@ class UserSettings {
     this.spotifyConnectInBackground = false,
   });
 
-
-
-  toJson() {
+  Map<String, dynamic> toJson({String? userID = ""}) {
     return {
       "userID": userID,
       "dataSaverAudioQuality": dataSaverAudioQuality,
@@ -77,10 +74,22 @@ class UserSettings {
     };
   }
 
-
   factory UserSettings.fromJson(Map<String, dynamic> json) {
+    late String thisID;
+    List<String> theseDevices = [];
+
+    if (json["userID"] == null) {
+      thisID = "";
+    } else {
+      thisID = json["userID"];
+    }
+
+    for (var element in (json["devices"] as List<dynamic>)) {
+      theseDevices.add(element.toString());
+    }
+
     return UserSettings(
-      userID: json["userID"],
+      userID: thisID,
       dataSaverAudioQuality: json["dataSaverAudioQuality"],
       downloadAudiOnly: json["downloadAudiOnly"],
       streamAudioOnly: json["streamAudioOnly"],
@@ -95,10 +104,9 @@ class UserSettings {
       deviceBroadcastStatus: json["deviceBroadcastStatus"],
       autoPlay: json["autoPlay"],
       canvas: json["canvas"],
-      devices: json["devices"],
+      devices: theseDevices,
       showLocalDevicesOnly: json["showLocalDevicesOnly"],
       spotifyConnectInBackground: json["spotifyConnectInBackground"],
     );
   }
-
 }

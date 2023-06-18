@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spotify_clone/components/button_submit.dart';
+import 'package:spotify_clone/providers/global_state_provider.dart';
 import 'package:spotify_clone/screens/sign_up/enter_name_screen.dart';
-
-
 
 class SelectArtistScreen extends StatelessWidget {
   const SelectArtistScreen({
@@ -47,24 +47,20 @@ class SelectArtistScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Container(
-
-
-          
-          child: SubmitButton(
-            onPressed: () {
-
-              print("------------------------------- Continue");
-
-              // get the current user 
-              
-
-            }, title: 'Continue',
-          ),
-            
-
-
-
+          child: Consumer<SpotifyUserStateProvider>(
+            builder: (context, userDataModel, child) {
+              return SubmitButton(
+                onPressed: () {
+                  print("------------------------------- Continue");
+                  final settings = userDataModel.currentUserSettings;
+                  settings.autoMix = true;
+                  settings.autoPlay = true;
+                  settings.devices.add("dummy_device_1");
+                  userDataModel.updateCurrentUserSettings(settings);
+                },
+                title: 'Continue',
+              );
+            },
           ),
         ),
       ),

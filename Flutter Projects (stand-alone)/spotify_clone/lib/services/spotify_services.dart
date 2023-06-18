@@ -22,15 +22,23 @@ class SpotifyServices {
       FirebaseFirestore.instance.collection("users");
 
   static Future<String> addNewUser(SpotifyUser newUser) async {
-    final response = await userCollection.add({
-      "email": newUser.email,
-      "password": newUser.password,
-      "firstName": newUser.firstName,
-      "lastName": newUser.lastName,
-      "gender": newUser.gender,
-      "settings": newUser.settings.toJson(),
-    }).catchError((error) => print("Failed to add user: $error"));
-    return response.id;
+    final response = await userCollection
+        .add(newUser.toJson())
+        .catchError((error) => print("Failed to add user: $error"));
+
+    final userID = response.id;
+
+    // update the user's ID in the "settings" field in the firestore DB
+    userCollection.doc(userID).update({
+      ...newUser.toJson(userID: userID),
+      "userID": userID,
+      "settings": {
+        ...newUser.settings.toJson(),
+        "userID": userID,
+      },
+    });
+
+    return userID;
   }
 
   /// Verify if a user exists in the database
@@ -44,26 +52,31 @@ class SpotifyServices {
   }
 
   /// Get the user from the database, based on the user ID
-  static Future<SpotifyUser> getUser(String userID) async {
+  static Future<SpotifyUser> getUserByID(String userID) async {
     final response = await userCollection.doc(userID).get();
     final receivedUser =
         SpotifyUser.fromJson(response.data() as Map<String, dynamic>);
-    // receivedUser.password = await decryptPassword(receivedUser.password);
     return receivedUser;
   }
 
-
-
+  static Future<SpotifyUser> getUserByDetails(
+      String email, String password) async {
+    password = await encryptPassword(password);
+    final response = await userCollection
+        .where("email", isEqualTo: email)
+        .where("password", isEqualTo: password)
+        .get();
+    final receivedUser = SpotifyUser.fromJson(
+        response.docs.first.data() as Map<String, dynamic>);
+    return receivedUser;
+  }
 
   static updateUserSettings(String userID, UserSettings settings) async {
     final response = await userCollection.doc(userID).update({
-      "settings": settings.toJson(),
+      "settings": settings.toJson(userID: userID),
     }).catchError((error) => print("Failed to update user: $error"));
     return response;
   }
-
-
-
 
   /// Implement the AES algorithm to encrypt the password
   static Future<String> encryptPassword(String password) async {
