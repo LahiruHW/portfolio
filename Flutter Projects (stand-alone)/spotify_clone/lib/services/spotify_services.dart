@@ -3,18 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:spotify_clone/entities/user.dart';
 import 'package:spotify_clone/entities/user_settings.dart';
 import 'package:encrypt/encrypt.dart' as ENCRYPT;
 
 class SpotifyServices {
-  // ignore: unused_field
-  static const String _secureKey = "4w17TWFLDUcHRcd4BReeRQ==";
 
-  static String userPath = "/users";
+  static const String _secureKey = "4w17TWFLDUcHRcd4BReeRQ==";
 
   static CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
+
+  final storage = FirebaseStorage.instance;
 
   static Future<String> addNewUser(SpotifyUser newUser) async {
     final response = await userCollection

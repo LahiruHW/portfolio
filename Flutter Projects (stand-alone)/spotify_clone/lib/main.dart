@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,19 +34,14 @@ Future<void> main() async {
   runApp(const SpotifyCloneApp());
 }
 
-// ignore: must_be_immutable
 class SpotifyCloneApp extends StatelessWidget {
   static GlobalKey mainAppKey = GlobalKey();
   const SpotifyCloneApp({
     super.key,
   });
 
-  // TextEditingController _textEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    // read the global JSON file and set up the app
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -56,7 +53,8 @@ class SpotifyCloneApp extends StatelessWidget {
           return MaterialApp(
             key: SpotifyCloneApp.mainAppKey,
             scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
-            onGenerateRoute: (settings) => SpotifyRouteManager.goToScreen(settings),
+            onGenerateRoute: (settings) =>
+                SpotifyRouteManager.goToScreen(settings),
             color: const Color.fromARGB(166, 27, 26, 28),
             debugShowCheckedModeBanner: false,
             home:

@@ -356,7 +356,6 @@ class _SpotifyNameInputState extends State<SpotifyNameInput> {
                     } else {
                       List<String> names =
                           _textEditingController.text.split(" ");
-                      print("------------------------------- names: $names");
 
                       String fName = names[0];
                       // concat the rest of the names
@@ -377,7 +376,6 @@ class _SpotifyNameInputState extends State<SpotifyNameInput> {
                         convertedMap[key.toString()] = value;
                       });
 
-                      print("convertedMap" + convertedMap.toString());
                       SpotifyUser newUser = SpotifyUser.fromJson(convertedMap);
                       userStateModel.addNewUser(newUser);
                       // String id = await SpotifyServices.addNewUser(newUser);
