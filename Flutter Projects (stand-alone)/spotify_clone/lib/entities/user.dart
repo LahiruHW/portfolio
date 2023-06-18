@@ -21,6 +21,8 @@ class SpotifyUser {
 
   String userID = "";
 
+  String profilePicLink = "";
+
   SpotifyUser({
     required this.email,
     required this.password,
@@ -29,13 +31,18 @@ class SpotifyUser {
     required this.gender,
     required this.settings,
     this.userID = "",
+    this.profilePicLink = "", // firestore link for the profile pic
   });
 
   void setID(String id) {
     userID = id;
   }
 
-  Map<String, dynamic> toJson({String? userID = ""}) {
+  void setProfilePic(String link) {
+    profilePicLink = link;
+  }
+
+  Map<String, dynamic> toJson({String? userID = "", String? profilePic = ""}) {
     return {
       "email": email,
       "password": password,
@@ -44,12 +51,14 @@ class SpotifyUser {
       "gender": gender,
       "settings": settings.toJson(userID: userID),
       "userID": userID,
+      "profilePicLink": profilePic,
     };
   }
 
   factory SpotifyUser.fromJson(Map<String, dynamic> json) {
     late Map<String, dynamic> theseSettings;
     late String thisID;
+    late String thisProfilePic;
 
     if (json["settings"].isEmpty) {
       final newSettings = UserSettings();
@@ -64,6 +73,12 @@ class SpotifyUser {
       thisID = json["userID"];
     }
 
+    if (json["profilePicLink"] == null) {
+      thisProfilePic = "";
+    } else {
+      thisProfilePic = json["profilePicLink"];
+    }
+
     return SpotifyUser(
       email: json["email"],
       password: json["password"],
@@ -72,6 +87,7 @@ class SpotifyUser {
       gender: json["gender"],
       settings: UserSettings.fromJson(theseSettings),
       userID: thisID,
+      profilePicLink: thisProfilePic,
     );
   }
 }

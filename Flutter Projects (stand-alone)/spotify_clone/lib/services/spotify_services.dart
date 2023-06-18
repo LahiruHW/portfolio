@@ -1,16 +1,11 @@
 // ignore_for_file: unused_import, avoid_print, invalid_return_type_for_catch_error, library_prefixes
 
-import 'dart:io';
-
-import 'package:encrypt/encrypt_io.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spotify_clone/entities/user.dart';
-
-import 'dart:convert';
-import 'package:encrypt/encrypt.dart' as ENCRYPT;
 import 'package:spotify_clone/entities/user_settings.dart';
+import 'package:encrypt/encrypt.dart' as ENCRYPT;
 
 class SpotifyServices {
   // ignore: unused_field
@@ -27,10 +22,11 @@ class SpotifyServices {
         .catchError((error) => print("Failed to add user: $error"));
 
     final userID = response.id;
+    final profilePicLink = newUser.profilePicLink;
 
     // update the user's ID in the "settings" field in the firestore DB
     userCollection.doc(userID).update({
-      ...newUser.toJson(userID: userID),
+      ...newUser.toJson(userID: userID, profilePic: profilePicLink),
       "userID": userID,
       "settings": {
         ...newUser.settings.toJson(),
