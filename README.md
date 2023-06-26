@@ -1,7 +1,26 @@
 ```python
-print("Hello World")
+print("Hello World")                                # python
 ```
-
+```dart
+Text(                                               // dart
+    "Hello World", 
+    style: TextStyle(fontSize:20,),
+); 
+```
+```java
+System.out.println("Hello World")                   // Java
+```
+```javascript
+console.log("Hello World")                          // Javascript
+```
+```sql
+CREATE TABLE helloworld (phrase TEXT);              /* SQL */    
+INSERT INTO helloworld VALUES ("Hello, World!");
+SELECT * FROM helloworld;
+```
+```html
+<h1>Hello, world!</h1>                              <!-- HTML -->
+```
 # Welcome To My Portfolio
 This is a portfolio of all the coding (among other activities) I have ever done, on online platforms and/or otherwise!
 
