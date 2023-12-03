@@ -43,55 +43,58 @@ class JiraffeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "SidebarX Example for JIRAffe",
-      debugShowCheckedModeBanner: false,
-      home: Builder(
-        builder: (context) {
-          // final isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-          return Scaffold(
-            backgroundColor: Colors.grey.shade600,
-            key: _key,
-            appBar: null,
-            drawer: JiraffeSidebarX(
-              controller: _controller,
-              padding: GLOBAL_PADDING,
-            ),
-            body: Row(
-              children: [
-                JiraffeSidebarX(
-                  controller: _controller,
-                  padding: GLOBAL_PADDING,
-                ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: GLOBAL_PADDING,
-                      bottom: GLOBAL_PADDING,
-                      // left: GLOBAL_PADDING / 4,
-                      right: GLOBAL_PADDING,
-                    ),
-                    decoration: BoxDecoration(
-                      color: JiraffeThemes.mainBackgroundColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child:
-
-                        // Center(
-                        //   child: Text(
-                        //     "PAGE BODY HERE",
-                        //     style: textStyle,
-                        //   ),
-                        // ),
-
-                        ProductBacklogPage(),
+    return InteractiveViewer(
+      panEnabled: true,
+      child: MaterialApp(
+        title: "SidebarX Example for JIRAffe",
+        debugShowCheckedModeBanner: false,
+        home: Builder(
+          builder: (context) {
+            // final isSmallScreen = MediaQuery.of(context).size.width < 600;
+      
+            return Scaffold(
+              backgroundColor: Colors.grey.shade600,
+              key: _key,
+              appBar: null,
+              drawer: JiraffeSidebarX(
+                controller: _controller,
+                padding: GLOBAL_PADDING,
+              ),
+              body: Row(
+                children: [
+                  JiraffeSidebarX(
+                    controller: _controller,
+                    padding: GLOBAL_PADDING,
                   ),
-                )
-              ],
-            ),
-          );
-        },
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        top: GLOBAL_PADDING,
+                        bottom: GLOBAL_PADDING,
+                        // left: GLOBAL_PADDING / 4,
+                        right: GLOBAL_PADDING,
+                      ),
+                      decoration: BoxDecoration(
+                        color: JiraffeThemes.mainBackgroundColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child:
+      
+                          // Center(
+                          //   child: Text(
+                          //     "PAGE BODY HERE",
+                          //     style: textStyle,
+                          //   ),
+                          // ),
+      
+                          ProductBacklogPage(),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
