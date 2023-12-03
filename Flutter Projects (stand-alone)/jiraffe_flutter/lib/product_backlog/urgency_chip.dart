@@ -1,7 +1,14 @@
+// ignore_for_file: constant_identifier_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:jiraffe_flutter/jiraffe_global_themes.dart';
 
-enum UrgencyType { URGENT, IMPORTANT, MEDIUM, LOW }
+enum UrgencyType {
+  URGENT,
+  IMPORTANT,
+  MEDIUM,
+  LOW,
+}
 
 class UrgencyChip extends StatelessWidget {
   const UrgencyChip({
@@ -27,6 +34,7 @@ class UrgencyChip extends StatelessWidget {
           backgroundColor: JiraffeThemes.medium,
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          side: BorderSide(color: Colors.transparent),
         );
 
       case UrgencyType.IMPORTANT:
@@ -35,6 +43,7 @@ class UrgencyChip extends StatelessWidget {
           backgroundColor: JiraffeThemes.important,
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          side: BorderSide(color: Colors.transparent),
         );
 
       case UrgencyType.URGENT:
@@ -43,6 +52,7 @@ class UrgencyChip extends StatelessWidget {
           backgroundColor: JiraffeThemes.urgent,
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          side: BorderSide(color: Colors.transparent),
         );
 
       default:
@@ -51,6 +61,7 @@ class UrgencyChip extends StatelessWidget {
           backgroundColor: JiraffeThemes.low,
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          side: BorderSide(color: Colors.transparent),
         );
     }
   }
