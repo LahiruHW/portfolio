@@ -1,25 +1,65 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:jiraffe_flutter/entities/task.dart';
+import 'package:jiraffe_flutter/entities/user.dart';
+
 class JiraffeStateProvider extends ChangeNotifier {
-  
-  bool isSideBarOpen = false;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final String taskCollectionID = 'tasks';
+  final String memberCollectionID = 'users';
 
-  // IMPLEMENT THE STATE PROVIDER HERE!!
+  // String projectId = "jiraffe-1";   // firebase project ID
 
-  // One class for Product
-  //    - each product has ONLY ONE product backlog
+  /// List of all the tasks in the product backlog
+  List<Task> productBacklog = [];
 
-  // One class for Sprint:
-  //    - ONE product can have MANY sprints
+  /// List of all the members in the team
+  Map<String, User> teamMembers = {};
 
-  // One class for User:
-  //    - the members of the team are GLOBAL
+  /// Initialize the app data
+  Future<void> initializeAppData() async {
+    print("========================== initializing app data");
 
-  // One memb
+    // get the team members data
+    await firestore
+        .collection(memberCollectionID)
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+              // teamMembers = querySnapshot.docs.map((doc) => User.fromJson(doc, doc.id)).toList()
+              teamMembers = {
+                for (var doc in querySnapshot.docs)
+                  doc.id: User.fromJson(doc, doc.id)
+              }
+            });
 
-  void toggleSideBarCollapse(bool isCollapsed) {
-    isSideBarOpen = isCollapsed;
-    notifyListeners();
+    // get the product backlog data
+    await firestore.collection(taskCollectionID).get().then(
+          (QuerySnapshot querySnapshot) => {
+            productBacklog = querySnapshot.docs
+                .map((doc) => Task.fromJson(doc, doc.id))
+                .toList()
+          },
+        );
+  }
+
+  void checkData() {
+    print("checking data");
+    for (var element in productBacklog) {
+      print(element);
+      print("------------------------");
+    }
+
+    print("=====================================================");
+
+    for (var element in teamMembers.entries) {
+      print(element);
+      print("------------------------");
+    }
   }
 
 }
