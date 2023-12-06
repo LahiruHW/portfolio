@@ -35,6 +35,7 @@ class UrgencyChip extends StatelessWidget {
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           side: BorderSide(color: Colors.transparent),
+          shape: const StadiumBorder(),
         );
 
       case UrgencyType.IMPORTANT:
@@ -44,6 +45,7 @@ class UrgencyChip extends StatelessWidget {
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           side: BorderSide(color: Colors.transparent),
+          shape: const StadiumBorder(),
         );
 
       case UrgencyType.URGENT:
@@ -53,6 +55,7 @@ class UrgencyChip extends StatelessWidget {
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           side: BorderSide(color: Colors.transparent),
+          shape: const StadiumBorder(),
         );
 
       default:
@@ -62,6 +65,7 @@ class UrgencyChip extends StatelessWidget {
           labelStyle: textStyle,
           labelPadding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           side: BorderSide(color: Colors.transparent),
+          shape: const StadiumBorder(),
         );
     }
   }
