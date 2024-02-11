@@ -1,12 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:jiraffe_flutter/entities/task.dart';
-import 'package:jiraffe_flutter/entities/user.dart';
+import 'package:jiraffe_flutter/entities/index.dart';
 
 class JiraffeStateProvider extends ChangeNotifier {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -14,6 +10,8 @@ class JiraffeStateProvider extends ChangeNotifier {
   final String memberCollectionID = 'users';
 
   // String projectId = "jiraffe-1";   // firebase project ID
+
+  bool productBacklogUIToggle = true;
 
   /// List of all the tasks in the product backlog
   List<Task> productBacklog = [];
@@ -24,6 +22,12 @@ class JiraffeStateProvider extends ChangeNotifier {
   /// Initialize the app data
   Future<void> initializeAppData() async {
     print("========================== initializing app data");
+
+    // check if the app is already initialized
+    if (productBacklog.isNotEmpty && teamMembers.isNotEmpty) {
+      print("app data already initialized");
+      return;
+    }
 
     // get the team members data
     await firestore
@@ -61,5 +65,13 @@ class JiraffeStateProvider extends ChangeNotifier {
       print("------------------------");
     }
   }
+
+
+  void toggleProductBacklogUI() {
+    productBacklogUIToggle = !productBacklogUIToggle;
+    print("productBacklogUIToggle: $productBacklogUIToggle");
+    notifyListeners();
+  }
+
 
 }

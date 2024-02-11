@@ -1,10 +1,11 @@
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'barriers.dart';
 
 // ignore: todo
 //TODO: ANIMATE THE ANGLE OF THE BIRD USING EITHER THE SAME ANIMATION, OR A NEW ANIMATION CONTROLLER.
 
+// ignore: must_be_immutable
 class Bird extends StatelessWidget {
     final Key key;
     double birdY;

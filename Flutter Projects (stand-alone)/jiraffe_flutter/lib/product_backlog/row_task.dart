@@ -1,4 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:jiraffe_flutter/GLOBAL/user_icon.dart';
@@ -8,15 +7,15 @@ import 'package:jiraffe_flutter/jiraffe_global_themes.dart';
 import 'package:jiraffe_flutter/product_backlog/urgency_chip.dart';
 
 class ProductBacklogTableRow extends StatelessWidget {
-  ProductBacklogTableRow({
+  const ProductBacklogTableRow({
     super.key,
     required this.task,
     required this.user,
     this.onDelete,
   });
 
-  late final Task task;
-  late final User user;
+  final Task task;
+  final User user;
   final VoidCallback? onDelete;
 
   @override

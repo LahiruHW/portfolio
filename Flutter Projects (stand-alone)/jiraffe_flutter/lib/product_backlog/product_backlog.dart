@@ -1,9 +1,14 @@
 // ignore_for_file: avoid_print
 
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_switch/flutter_switch.dart';
+import 'package:jiraffe_flutter/GLOBAL/global_appstate_provider.dart';
 import 'package:jiraffe_flutter/product_backlog/product_backlog_table.dart';
 import 'package:jiraffe_flutter/jiraffe_global_themes.dart';
+import 'package:provider/provider.dart';
 
+// class ProductBacklogPage extends StatefulWidget {
 class ProductBacklogPage extends StatelessWidget {
   const ProductBacklogPage({
     super.key,
@@ -22,6 +27,7 @@ class ProductBacklogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<JiraffeStateProvider>(context, listen: true);
     return Container(
       padding: const EdgeInsets.only(left: 40, right: 40, bottom: 20),
       child: Column(
@@ -33,12 +39,20 @@ class ProductBacklogPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 JiraffeThemes.productBacklogHeaderImg,
-                const Text(
-                  "switch here",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Barlow-Regular",
+                AnimatedToggleSwitch<bool?>.dual(
+                  current: provider.productBacklogUIToggle,
+                  first: false,
+                  second: true,
+                  height: 35,
+                  borderWidth: 0,
+                  style: const ToggleStyle(
+                    backgroundColor: Colors.grey,
+                    indicatorColor: Colors.white,
                   ),
+                  animationDuration: const Duration(milliseconds: 250),
+                  animationCurve: Curves.easeInOut,
+                  onChanged: (val) => provider.toggleProductBacklogUI(),
+                  textBuilder: (val) => val! ? JiraffeThemes.pbCardViewIcon : JiraffeThemes.pbListViewIcon, 
                 )
               ],
             ),
@@ -60,12 +74,18 @@ class ProductBacklogPage extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const ProductBacklogTable(),
+              child: FutureBuilder(
+                future: provider.initializeAppData(),
+                builder: (context, snapshot) => ProductBacklogDataView(
+                  taskList: provider.productBacklog,
+                  userMap: provider.teamMembers,
+                  uiToggle: provider.productBacklogUIToggle,
+                ),
+              ),
             ),
           )
         ],
       ),
     );
   }
-
 }

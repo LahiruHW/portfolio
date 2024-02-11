@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage>{
     static double velocity = 1.0;
     static double initialHeight = bird_y_axis;
 
-    static late Bird playerBird;
+    late Bird playerBird;
     static bool birdGoesUp = true;
     int score = 0;
 

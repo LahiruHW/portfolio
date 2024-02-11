@@ -21,6 +21,7 @@ class UserIcon extends StatelessWidget {
     final text = user.firstName[0] + user.lastName[0];
     final colour = Color(int.parse('0xff${user.colourHex}'));
     return Tooltip(
+      preferBelow: false,
       message: "${user.firstName} ${user.lastName}",
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

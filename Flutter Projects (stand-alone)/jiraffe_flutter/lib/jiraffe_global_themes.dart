@@ -74,4 +74,22 @@ class JiraffeThemes {
     height: 40,
     width: 40,
   );
+
+
+  static Image pbListViewIcon = Image.asset(
+    'assets/icons/view_listview_2_64x64.png',
+    alignment: Alignment.centerRight,
+    fit: BoxFit.contain,
+    height: 35,
+    width: 35,
+  );
+  static Image pbCardViewIcon = Image.asset(
+    'assets/icons/view_cardview_60x60.png',
+    alignment: Alignment.centerLeft,
+    fit: BoxFit.contain,
+    height: 35,
+    width: 35,
+  );
+
+
 }

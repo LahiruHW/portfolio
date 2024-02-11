@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 
 class ProductBacklogHeaderRow extends StatelessWidget {
-  const ProductBacklogHeaderRow({super.key});
+  const ProductBacklogHeaderRow({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
